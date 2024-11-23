@@ -15,16 +15,17 @@ export default function HomeScreen() {
   const icon = require('./');
   const userName = "Mihael";
   const colorScheme = useColorScheme();
-  const editProfile = "icon Uredi Profil";
+  const editProfile = "Uredi Profil";
   const navigation = useNavigation();
+  const ProfileTitle = "Profil";
 
   function Header(){
     return(
       <View style={[styles.header]}>
-        <ThemedText style={[styles.headerText]}>Profil</ThemedText>
-        <View>
-        <IconSymbol size={28} name="notifications.none" color={Colors[colorScheme ?? "light"].background}/>
-        <IconSymbol size={28} name="notifications.none" color={Colors[colorScheme ?? "light"].background}/>
+        <ThemedText style={[styles.headerText]}>{ProfileTitle}</ThemedText>
+        <View style={[styles.headerIcons]}>
+          <IconSymbol name="settings" color={Colors[colorScheme ?? "light"].text} />
+          <IconSymbol name="question" color={Colors[colorScheme ?? "light"].text} />
         </View>
       </View>
     )
@@ -42,8 +43,8 @@ export default function HomeScreen() {
 
   function EditProfileButton(){
     return(
-        <TouchableOpacity style={[styles.editProfileButton, styles.profileButtonShadow]}>
-          <Text>Icon</Text>
+        <TouchableOpacity style={[styles.editProfileButton]}>
+          <IconSymbol name="edit" size={15} color={"#016EB2"} />
           <ThemedText style={[styles.editProfileText]}>{editProfile}</ThemedText>
         </TouchableOpacity>
     )
@@ -55,11 +56,12 @@ export default function HomeScreen() {
 
         <ProfileImage></ProfileImage>
 
-        <ThemedText type="subtitle" style={[globalStyles.mb2, styles.userName]}>
+        <ThemedText type="subtitle" style={[styles.userName]}>
           {userName}
         </ThemedText>
 
         <EditProfileButton></EditProfileButton>
+
 
       </View>
     )
@@ -68,7 +70,7 @@ export default function HomeScreen() {
   function InterestsTopButton(){
     return(
         <TouchableOpacity style={[styles.changeInterestsButton]}>
-          <Text>Icon</Text>
+          <IconSymbol name="edit" size={15} color={"#5669FF"} />
           <ThemedText style={[{fontSize: 10, color: "#5669FF"}]}>PROMJENI</ThemedText>
         </TouchableOpacity>
     )
@@ -77,7 +79,7 @@ export default function HomeScreen() {
   function InterestsTop(){
     return(
       <View style={[styles.interestsTop]}>
-        <ThemedText>Interesi</ThemedText>
+        <ThemedText style={[{fontSize: 18, paddingTop: 10}]}>Interesi</ThemedText>
         <InterestsTopButton></InterestsTopButton>
       </View>
     )

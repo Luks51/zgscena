@@ -6,7 +6,7 @@ const App = () => {
 
   if (!rootNavigationState?.key) return null;
 
-  return <Redirect href={"/(public)/onboard"} />;
+  return <Redirect href={"/(tabs)/home"} />;
 };
 
 export default App;

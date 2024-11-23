@@ -31,8 +31,8 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-
   "arrow.left" : "arrow-back",
+  "explore" : "explore",
   "settings" : "settings",
   "question" : "question-mark",
   "edit" : "edit",

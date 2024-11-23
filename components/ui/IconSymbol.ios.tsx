@@ -32,6 +32,7 @@ const MAPPING = {
   "star.fill": "star",
   "star.empty": "star-border",
   "arrow.left" : "arrow-back",
+  "more.vert" : "more-vert",
   "explore" : "explore",
 } as Partial<
   Record<

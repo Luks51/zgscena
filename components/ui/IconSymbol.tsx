@@ -23,7 +23,6 @@ const MAPPING = {
   "location.pin": "location-pin",
   "calendar.month": "calendar-month",
   euro: "euro",
-  "local.fire.department": "local-fire-department",
   "sports.soccer": "sports-soccer",
   movie: "movie",
   fastfood: "fastfood",
@@ -31,12 +30,12 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
+  "more.vert" : "more-vert",
   "arrow.left" : "arrow-back",
   "explore" : "explore",
   "settings" : "settings",
   "question" : "question-mark",
   "edit" : "edit",
-  "local.fire.department": "local-fire-department",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

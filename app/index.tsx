@@ -6,7 +6,7 @@ const App = () => {
 
   if (!rootNavigationState?.key) return null;
 
-  return <Redirect href={"/(tabs)/home"} />;
+  return <Redirect href={"/(public)/notifications"} />;
 };
 
 export default App;

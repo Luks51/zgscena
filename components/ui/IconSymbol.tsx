@@ -31,9 +31,12 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "location": "location-pin",
   "arrow.left" : "arrow-back",
   "explore" : "explore",
+  "settings" : "settings",
+  "question" : "question-mark",
+  "edit" : "edit",
+  "local.fire.department": "local-fire-department",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

@@ -21,6 +21,27 @@ const globalStyles = StyleSheet.create({
   textCenter: {
     textAlign: "center",
   },
+  m1: {
+    margin: 10,
+  },
+  mx1: {
+    marginHorizontal: 10,
+  },
+  my1: {
+    marginVertical: 10,
+  },
+  mt1: {
+    marginTop: 10,
+  },
+  ms1: {
+    marginStart: 10,
+  },
+  me1: {
+    marginEnd: 10,
+  },
+  mb1: {
+    marginBottom: 10,
+  },
   m2: {
     margin: 20,
   },
@@ -32,6 +53,12 @@ const globalStyles = StyleSheet.create({
   },
   mt2: {
     marginTop: 20,
+  },
+  ms2: {
+    marginStart: 20,
+  },
+  me2: {
+    marginEnd: 20,
   },
   mb2: {
     marginBottom: 20,
@@ -48,8 +75,35 @@ const globalStyles = StyleSheet.create({
   mt3: {
     marginTop: 30,
   },
+  ms3: {
+    marginStart: 30,
+  },
+  me3: {
+    marginEnd: 30,
+  },
   mb3: {
     marginBottom: 30,
+  },
+  p1: {
+    padding: 10,
+  },
+  px1: {
+    paddingHorizontal: 10,
+  },
+  py1: {
+    paddingVertical: 10,
+  },
+  pt1: {
+    paddingTop: 10,
+  },
+  ps1: {
+    marginStart: 10,
+  },
+  pe1: {
+    marginEnd: 10,
+  },
+  pb1: {
+    paddingBottom: 10,
   },
   p2: {
     padding: 20,
@@ -62,6 +116,12 @@ const globalStyles = StyleSheet.create({
   },
   pt2: {
     paddingTop: 20,
+  },
+  ps2: {
+    marginStart: 20,
+  },
+  pe2: {
+    marginEnd: 20,
   },
   pb2: {
     paddingBottom: 20,

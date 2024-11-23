@@ -14,6 +14,19 @@ const styles = StyleSheet.create({
   },
   eventCard: {
     borderRadius: 12,
+    maxWidth: 300,
+  },
+  eventCardImage: {
+    aspectRatio: "16/9",
+    width: "100%",
+    objectFit: "cover",
+  },
+  bellIcon: {
+    borderRadius: 50,
+    padding: 10,
+  },
+  eventBtn: {
+    borderRadius: 12,
   },
 });
 

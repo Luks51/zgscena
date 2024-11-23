@@ -2,10 +2,10 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   headerWrapper: {
-    paddingVertical: 40,
-    paddingHorizontal: 20,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
+    paddingBottom: 20,
+    paddingTop: 10,
   },
   categoriesBtn: {
     paddingHorizontal: 20,
@@ -14,16 +14,31 @@ const styles = StyleSheet.create({
   },
   eventCard: {
     borderRadius: 12,
-    maxWidth: 300,
+    maxWidth: 250,
   },
   eventCardImage: {
     aspectRatio: "16/9",
     width: "100%",
-    objectFit: "cover",
+    maxWidth: 250,
+    height: "auto",
+    borderRadius: 8,
   },
   bellIcon: {
     borderRadius: 50,
-    padding: 10,
+    padding: 8,
+    position: "relative",
+  },
+  bellPoint: {
+    backgroundColor: "#02E9FE",
+    borderRadius: 50,
+    height: 7,
+    width: 7,
+    position: "absolute",
+    top: 14,
+    right: 14,
+    borderWidth: 1,
+    borderColor: "#016eb2",
+    boxSizing: "border-box",
   },
   eventBtn: {
     borderRadius: 12,

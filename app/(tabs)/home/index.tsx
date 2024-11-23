@@ -1,5 +1,5 @@
 import { router, Stack } from "expo-router";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView, Image } from "react-native";
 import globalStyles from "../../style";
 import styles from "./home.style";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -13,18 +13,43 @@ import EventCardComponent from "./components/eventcard";
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
 
-  const [categories, setCategories] = useState<string[]>([
-    "Sport",
-    "Glazba",
-    "Gastro",
-    "Predstava",
+  const [categories, setCategories] = useState<
+    {
+      name: string;
+      icon: string;
+    }[]
+  >([
+    {
+      name: "Predstava",
+      icon: "tehater.comedy",
+    },
+    {
+      name: "Kino",
+      icon: "movie",
+    },
+    {
+      name: "Glazba",
+      icon: "music.note",
+    },
+    {
+      name: "Gastro",
+      icon: "fastfood",
+    },
+    {
+      name: "Sport",
+      icon: "sports.soccer",
+    },
   ]);
 
-  const [selectedCategorie, setSelectedCategorie] = useState<string>(
-    categories[0]
-  );
+  const [selectedCategorie, setSelectedCategorie] = useState<{
+    name: string;
+    icon: string;
+  }>(categories[0]);
+
+  const imageCardSkeleton = require("@/assets/images/card-skeleton.gif");
 
   const [events, setEvents] = useState<any[]>([]);
+  const [skeletonEvents, setSkeletonEvents] = useState<number[]>([1, 2, 3]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,107 +85,189 @@ export default function HomeScreen() {
       <View
         style={[
           styles.headerWrapper,
+          globalStyles.px2,
           { backgroundColor: Colors[colorScheme ?? "light"].tint },
         ]}
       >
-        <View
-          style={[
-            globalStyles.dFlex,
-            globalStyles.justifyContentBetween,
-            globalStyles.alignItemsCenter,
-            globalStyles.mb3,
-          ]}
-        >
+        <SafeAreaView style={[globalStyles.pb2]}>
           <View
             style={[
-              styles.bellIcon,
-              { backgroundColor: Colors[colorScheme ?? "light"].tintSecondary },
+              globalStyles.dFlex,
+              globalStyles.justifyContentBetween,
+              globalStyles.alignItemsCenter,
+              globalStyles.mb3,
             ]}
           >
-            <IconSymbol
-              size={28}
-              name="notifications.none"
-              color={Colors[colorScheme ?? "light"].background}
-            />
-          </View>
-          <View>
-            <ThemedText
+            <View
               style={[
-                { color: Colors[colorScheme ?? "light"].secondaryBackground },
-                globalStyles.textCenter,
+                styles.bellIcon,
+                {
+                  backgroundColor: Colors[colorScheme ?? "light"].tintSecondary,
+                },
               ]}
             >
-              Trenutna lokacija
-            </ThemedText>
-            <ThemedText
-              style={[
-                { color: Colors[colorScheme ?? "light"].background },
-                globalStyles.textCenter,
-              ]}
-            >
-              Trnje, Zagreb
-            </ThemedText>
+              <IconSymbol
+                size={28}
+                name="notifications.none"
+                color={Colors[colorScheme ?? "light"].background}
+              />
+              <View style={[styles.bellPoint]}></View>
+            </View>
+            <View>
+              <ThemedText
+                style={[
+                  { color: Colors[colorScheme ?? "light"].secondaryBackground },
+                  globalStyles.textCenter,
+                ]}
+              >
+                Trenutna lokacija
+              </ThemedText>
+              <ThemedText
+                style={[
+                  { color: Colors[colorScheme ?? "light"].background },
+                  globalStyles.textCenter,
+                ]}
+              >
+                Trnje, Zagreb
+              </ThemedText>
+            </View>
+            <View>
+              <IconSymbol
+                size={28}
+                name="search"
+                color={Colors[colorScheme ?? "light"].background}
+              />
+            </View>
           </View>
-          <View>
-            <IconSymbol
-              size={28}
-              name="search"
-              color={Colors[colorScheme ?? "light"].background}
-            />
-          </View>
-        </View>
-        <ScrollView
-          overScrollMode="never"
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
-            {categories.map((categorie) => {
-              return (
-                <TouchableOpacity
-                  key={categorie}
-                  style={[
-                    globalStyles.me2,
-                    styles.categoriesBtn,
-                    {
-                      backgroundColor:
-                        categorie === selectedCategorie
-                          ? Colors[colorScheme ?? "light"].accent
-                          : "transparent",
-                    },
-                    { borderWidth: 1 },
-                    {
-                      borderColor:
-                        categorie !== selectedCategorie
-                          ? Colors[colorScheme ?? "light"].accent
-                          : "transparent",
-                    },
-                  ]}
-                >
-                  <ThemedText
+          <ScrollView
+            overScrollMode="never"
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
+              {categories.map((categorie) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedCategorie(categorie);
+                    }}
+                    key={categorie.name}
                     style={[
-                      { color: Colors[colorScheme ?? "light"].background },
-                      globalStyles.textCenter,
+                      globalStyles.me2,
+                      styles.categoriesBtn,
+                      globalStyles.dFlex,
+                      globalStyles.alignItemsCenter,
+                      {
+                        backgroundColor:
+                          categorie === selectedCategorie
+                            ? Colors[colorScheme ?? "light"].accent
+                            : "transparent",
+                      },
+                      { borderWidth: 1 },
+                      {
+                        borderColor:
+                          categorie.name !== selectedCategorie.name
+                            ? Colors[colorScheme ?? "light"].accent
+                            : "transparent",
+                      },
                     ]}
                   >
-                    {categorie}
-                  </ThemedText>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </ScrollView>
+                    <IconSymbol
+                      size={20}
+                      name={categorie.icon}
+                      color={
+                        categorie.name !== selectedCategorie.name
+                          ? Colors[colorScheme ?? "light"].accent
+                          : Colors[colorScheme ?? "light"].background
+                      }
+                      style={[globalStyles.me1]}
+                    />
+                    <ThemedText
+                      style={[
+                        {
+                          color:
+                            categorie.name !== selectedCategorie.name
+                              ? Colors[colorScheme ?? "light"].accent
+                              : Colors[colorScheme ?? "light"].background,
+                        },
+                        globalStyles.textCenter,
+                      ]}
+                    >
+                      {categorie.name}
+                    </ThemedText>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </View>
-      <SafeAreaView style={[globalStyles.container]}>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-        />
+      <ScrollView
+        overScrollMode="never"
+        showsVerticalScrollIndicator={false}
+        alwaysBounceVertical={true}
+      >
         <View>
           <View>
-            <ThemedText type="subtitle" style={[globalStyles.mb2]}>
+            <ThemedText
+              style={[globalStyles.px2, globalStyles.pt2]}
+              type="subtitle"
+            >
               Preporučeno
+            </ThemedText>
+            <ScrollView
+              overScrollMode="never"
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {events.length < 1 ? (
+                <View
+                  style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}
+                >
+                  {events.map((event) => {
+                    return (
+                      <View style={{ paddingLeft: 20 }} key={event.id}>
+                        <View
+                          style={[
+                            globalStyles.boxShadow,
+                            styles.eventBtn,
+                            globalStyles.p2,
+                            {
+                              backgroundColor:
+                                Colors[colorScheme ?? "light"].background,
+                            },
+                          ]}
+                        >
+                          <TouchableOpacity
+                            onPress={() =>
+                              router.push(`/(public)/event/${event.id}`)
+                            }
+                          >
+                            <EventCardComponent eventValue={event} />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              ) : (
+                <View>
+                  <Image
+                    source={imageCardSkeleton}
+                    style={[styles.eventCardImage, globalStyles.mb2]}
+                  />
+                </View>
+              )}
+            </ScrollView>
+          </View>
+        </View>
+        <View>
+          <View>
+            <ThemedText
+              style={[globalStyles.px2, globalStyles.pt2]}
+              type="subtitle"
+            >
+              Popularni
             </ThemedText>
             <ScrollView
               overScrollMode="never"
@@ -170,7 +277,7 @@ export default function HomeScreen() {
               <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
                 {events.map((event) => {
                   return (
-                    <View style={{ padding: 5 }}>
+                    <View style={{ paddingLeft: 20 }} key={event.id}>
                       <View
                         style={[
                           globalStyles.boxShadow,
@@ -187,10 +294,7 @@ export default function HomeScreen() {
                             router.push(`/(public)/event/${event.id}`)
                           }
                         >
-                          <EventCardComponent
-                            key={event.id}
-                            eventValue={event}
-                          />
+                          <EventCardComponent eventValue={event} />
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -200,6 +304,99 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         </View>
+        <View>
+          <View>
+            <ThemedText
+              style={[globalStyles.px2, globalStyles.pt2]}
+              type="subtitle"
+            >
+              Nadolazeći
+            </ThemedText>
+            <ScrollView
+              overScrollMode="never"
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
+                {events.map((event) => {
+                  return (
+                    <View style={{ paddingLeft: 20 }} key={event.id}>
+                      <View
+                        style={[
+                          globalStyles.boxShadow,
+                          styles.eventBtn,
+                          globalStyles.p2,
+                          {
+                            backgroundColor:
+                              Colors[colorScheme ?? "light"].background,
+                          },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            router.push(`/(public)/event/${event.id}`)
+                          }
+                        >
+                          <EventCardComponent eventValue={event} />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+        <View>
+          <View>
+            <ThemedText
+              style={[globalStyles.px2, globalStyles.pt2]}
+              type="subtitle"
+            >
+              U blizni
+            </ThemedText>
+            <ScrollView
+              overScrollMode="never"
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
+                {events.map((event) => {
+                  return (
+                    <View style={{ paddingLeft: 20 }} key={event.id}>
+                      <View
+                        style={[
+                          globalStyles.boxShadow,
+                          styles.eventBtn,
+                          globalStyles.p2,
+                          {
+                            backgroundColor:
+                              Colors[colorScheme ?? "light"].background,
+                          },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            router.push(`/(public)/event/${event.id}`)
+                          }
+                        >
+                          <EventCardComponent eventValue={event} />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </ScrollView>
+      <SafeAreaView style={[globalStyles.container]}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+        />
       </SafeAreaView>
     </>
   );

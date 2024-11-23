@@ -16,11 +16,7 @@ export default function EventCardComponent({
   eventValue: any;
 }) {
   const colorScheme = useColorScheme();
-  // useEffect(() => {
-  //   if (eventValue.fields.slika?.length) {
-  //     console.log(eventValue.fields.slika[0].thumbnails.small.url);
-  //   }
-  // }, [eventValue]);
+  const image = require("@/assets/images/placeholder-image.png");
 
   return (
     <View style={[styles.eventCard]}>
@@ -31,8 +27,13 @@ export default function EventCardComponent({
           }}
           style={[styles.eventCardImage, globalStyles.mb2]}
         />
-      ) : null}
-      <ThemedText type="subtitle" style={[globalStyles.mb2]}>
+      ) : (
+        <Image
+          source={image}
+          style={[styles.eventCardImage, globalStyles.mb2]}
+        />
+      )}
+      <ThemedText type="subtitle" style={[globalStyles.mb1]}>
         {eventValue.fields["skraćeni naziv"]}
       </ThemedText>
       <View
@@ -45,7 +46,7 @@ export default function EventCardComponent({
         <IconSymbol
           size={28}
           name="location.pin"
-          color={Colors[colorScheme ?? "light"].text}
+          color={Colors[colorScheme ?? "light"].tint}
         />
         <ThemedText style={[globalStyles.ms1]}>
           {eventValue.fields.lokacija
@@ -63,7 +64,7 @@ export default function EventCardComponent({
         <IconSymbol
           size={28}
           name="calendar.month"
-          color={Colors[colorScheme ?? "light"].text}
+          color={Colors[colorScheme ?? "light"].tint}
         />
         <ThemedText style={[globalStyles.ms1]}>
           {`${new Date(
@@ -87,7 +88,7 @@ export default function EventCardComponent({
         <IconSymbol
           size={28}
           name="euro"
-          color={Colors[colorScheme ?? "light"].text}
+          color={Colors[colorScheme ?? "light"].tint}
         />
         <ThemedText style={[globalStyles.ms1]}>
           {parseFloat(eventValue.fields.cijena).toFixed(2)} EUR
@@ -97,9 +98,11 @@ export default function EventCardComponent({
         <IconSymbol
           size={28}
           name="local.fire.department"
-          color={Colors[colorScheme ?? "light"].text}
+          color={Colors[colorScheme ?? "light"].tint}
         />
-        <ThemedText style={[globalStyles.ms1]}>{30}</ThemedText>
+        <ThemedText style={[globalStyles.ms1]}>
+          {`zainteresirano ${Math.floor(Math.random() * 100)} osoba`}
+        </ThemedText>
       </View>
     </View>
   );

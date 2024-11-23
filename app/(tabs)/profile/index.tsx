@@ -23,11 +23,8 @@ export default function HomeScreen() {
       <View style={[styles.header]}>
         <ThemedText style={[styles.headerText]}>Profil</ThemedText>
         <View>
-        <IconSymbol
-              size={28}
-              name="notifications.none"
-              color={Colors[colorScheme ?? "light"].background}
-            />
+        <IconSymbol size={28} name="notifications.none" color={Colors[colorScheme ?? "light"].background}/>
+        <IconSymbol size={28} name="notifications.none" color={Colors[colorScheme ?? "light"].background}/>
         </View>
       </View>
     )

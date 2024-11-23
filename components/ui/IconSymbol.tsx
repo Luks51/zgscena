@@ -36,8 +36,8 @@ const MAPPING = {
   "location": "location-pin",
   "bookmark": "bookmark-border",
   "review": "rate-review",
-  "arrow.right" : "arrow-forward",
   "arrow.left" : "arrow-back",
+  "more.vert" : "more-vert",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

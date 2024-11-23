@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedText } from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EventModel } from "./models/home.model";
 import EventCardComponent from "./components/eventcard";
 export default function HomeScreen() {
@@ -20,31 +20,40 @@ export default function HomeScreen() {
     "Predstava",
   ]);
 
-  const [categorieColors, setCategorieColors] = useState<string[]>([
-    "#F0635A",
-    "#F59762",
-    "#29D697",
-    "#46CDFB",
-  ]);
+  const [selectedCategorie, setSelectedCategorie] = useState<string>(
+    categories[0]
+  );
 
-  const [events, setEvent] = useState<EventModel[]>([
-    {
-      title: "Božićna želja",
-      src: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fimperiallawoffice.com%2Fblog%2Fsanta-claus&psig=AOvVaw3HyxJmNWaeSEM_dAO49Bl6&ust=1732415046336000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJifxZmz8YkDFQAAAAAdAAAAABAE",
-      location: "Gradsko kazalište Žar ptica",
-      date: new Date(),
-      price: 30,
-      numberOfPeoples: 60,
-    },
-    {
-      title: "Božićna želja",
-      src: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fimperiallawoffice.com%2Fblog%2Fsanta-claus&psig=AOvVaw3HyxJmNWaeSEM_dAO49Bl6&ust=1732415046336000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJifxZmz8YkDFQAAAAAdAAAAABAE",
-      location: "Gradsko kazalište Žar ptica",
-      date: new Date(),
-      price: 30,
-      numberOfPeoples: 60,
-    },
-  ]);
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token =
+        "pats9KvXvBmivlseG.4a3d9b8d286612bfab38436144cfda8ce68ac9d5603a7a7b43a3c0247802c538"; // Replace with your token logic
+      const apiUrl =
+        "https://api.airtable.com/v0/appE6L6fQPeZ6s8Gt/tblZ6EUAeNxYXP574"; // Replace with your API endpoint
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result: any = await response.json();
+        setEvents(result.records);
+      } catch (err) {
+        console.log("error!");
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -62,7 +71,12 @@ export default function HomeScreen() {
             globalStyles.mb3,
           ]}
         >
-          <View>
+          <View
+            style={[
+              styles.bellIcon,
+              { backgroundColor: Colors[colorScheme ?? "light"].tintSecondary },
+            ]}
+          >
             <IconSymbol
               size={28}
               name="notifications.none"
@@ -106,13 +120,20 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   key={categorie}
                   style={[
-                    globalStyles.mx2,
+                    globalStyles.me2,
                     styles.categoriesBtn,
                     {
                       backgroundColor:
-                        categorieColors[
-                          Math.floor(Math.random() * categorieColors.length)
-                        ],
+                        categorie === selectedCategorie
+                          ? Colors[colorScheme ?? "light"].accent
+                          : "transparent",
+                    },
+                    { borderWidth: 1 },
+                    {
+                      borderColor:
+                        categorie !== selectedCategorie
+                          ? Colors[colorScheme ?? "light"].accent
+                          : "transparent",
                     },
                   ]}
                 >
@@ -148,7 +169,9 @@ export default function HomeScreen() {
             >
               <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
                 {events.map((event) => {
-                  return <EventCardComponent eventValue={event} />;
+                  return (
+                    <EventCardComponent key={event.id} eventValue={event} />
+                  );
                 })}
               </View>
             </ScrollView>

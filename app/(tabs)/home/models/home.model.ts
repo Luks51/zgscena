@@ -1,8 +1,8 @@
 export interface EventModel {
-  title: string;
-  src: string;
-  location: string;
-  date: Date;
-  price: number;
-  numberOfPeoples: number;
+  id: string;
+  "skraćeni naziv": string;
+  slika: string;
+  "datum i vrijeme početka": Date;
+  lokacija: string;
+  cijena: number;
 }

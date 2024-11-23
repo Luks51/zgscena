@@ -31,13 +31,12 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "calendar.today": "calendar-today",
-  "people": "emoji-people",
-  "location": "location-pin",
-  "bookmark": "bookmark-border",
-  "review": "rate-review",
-  "arrow.right" : "arrow-forward",
+
   "arrow.left" : "arrow-back",
+  "settings" : "settings",
+  "question" : "question-mark",
+  "edit" : "edit",
+  "local.fire.department": "local-fire-department",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

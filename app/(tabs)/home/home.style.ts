@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
   },
+  eventBtn: {
+    borderRadius: 12,
+  },
 });
 
 export default styles;

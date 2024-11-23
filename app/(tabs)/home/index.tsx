@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { View, TouchableOpacity, ScrollView } from "react-native";
 import globalStyles from "../../style";
 import styles from "./home.style";
@@ -170,7 +170,30 @@ export default function HomeScreen() {
               <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
                 {events.map((event) => {
                   return (
-                    <EventCardComponent key={event.id} eventValue={event} />
+                    <View style={{ padding: 5 }}>
+                      <View
+                        style={[
+                          globalStyles.boxShadow,
+                          styles.eventBtn,
+                          globalStyles.p2,
+                          {
+                            backgroundColor:
+                              Colors[colorScheme ?? "light"].background,
+                          },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            router.push(`/(public)/event/${event.id}`)
+                          }
+                        >
+                          <EventCardComponent
+                            key={event.id}
+                            eventValue={event}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                   );
                 })}
               </View>

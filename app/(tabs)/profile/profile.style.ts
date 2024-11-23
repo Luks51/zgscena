@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     height: 128,
     width: "100%",
     display: "flex",
-    justifyContent: 'center',
     alignItems: "center",
     paddingTop: 0,
     backgroundColor: "rgba(23, 23, 102, 0.05)",

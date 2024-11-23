@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import {Link, Stack} from "expo-router";
 import { View, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "../../style";
@@ -89,7 +89,13 @@ export default function HomeScreen() {
                         <ThemedText style={styles.navigationButton}>Preskoči</ThemedText>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleNext}>
-                        <ThemedText style={styles.navigationButton}>Dalje</ThemedText>
+                        if (currentStep === steps.length - 1) {
+                            <Link href={"/(tabs)/home"}>
+                                <ThemedText style={styles.navigationButton}>Dalje</ThemedText>
+                            </Link>
+                    } else {
+                            <ThemedText style={styles.navigationButton}>Dalje</ThemedText>
+                        }
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>

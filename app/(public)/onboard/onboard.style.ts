@@ -59,4 +59,5 @@ export default StyleSheet.create({
     color: "white", // Navigation button color
     fontWeight: "bold",
   },
+
 });

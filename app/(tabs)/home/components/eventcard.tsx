@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import globalStyles from "@/app/style";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";

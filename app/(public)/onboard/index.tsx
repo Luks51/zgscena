@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedText } from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
-export default function HomeScreen() {
+export default function OnBoardScreen() {
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView>

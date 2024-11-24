@@ -63,7 +63,7 @@ export default function ProfileScreen() {
             {/* Profile Intro */}
             <View style={styles.profileIntro}>
                 <Image
-                    source={require("@/app/(public)/notifications/NotifImg.png")}
+                    source={require("@/assets/images/notifimage.png")}
                     style={{ width: 120, height: 120, borderRadius: 100000 }}
                 />
                 <Text style={styles.userName}>{userName}</Text>

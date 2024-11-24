@@ -1,40 +1,31 @@
 import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 60, //KASNIJE POPRAVI
-    marginBottom: 18,
-  },
-  headerText: {
-    fontSize: 24,
-    lineHeight: 28,
-    fontWeight: "bold",
-  },
+const styles = StyleSheet.create({
   notificationCardContainer: {
-    width: "100%",
-    height: 72,
-    marginBottom: 18,
-    borderBottomWidth: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    padding: 15,
+    marginBottom: 10,
+    backgroundColor: "#f9f9f9", // Lighter background
+    borderRadius: 10, // Rounded corners
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 2,
   },
   notificationCardImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 1000,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15,
   },
   notificationText: {
-    width: 260,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  }
-
+    flex: 1,
+    fontSize: 14,
+    color: "#333",
+    fontFamily: "SpaceMono", // Assuming you are using SpaceMono font
+  },
 });
+
+export default styles;

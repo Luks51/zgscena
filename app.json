@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -14,7 +14,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
+      ],
+      "package": "com.luks51.ZGScena"
     },
     "web": {
       "bundler": "metro",
@@ -23,14 +28,6 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#ffffff",
-          "resizeMode": "contain",
-          "image": ""
-        }
-      ],
       [
         "expo-calendar",
         {
@@ -41,9 +38,18 @@
     "experiments": {
       "typedRoutes": true
     },
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "backgroundColor": "#ffffff",
-      "resizeMode": "contain"
+      "image": "./assets/images/splash-icon.png",
+      "backgroundColor": "#fffffff"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6701b2e2-3bf5-46a7-8eb7-04f86773fb80"
+      }
     }
   }
 }

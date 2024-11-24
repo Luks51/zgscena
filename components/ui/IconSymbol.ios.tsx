@@ -42,21 +42,22 @@ const MAPPING = {
   directions: "directions",
   "calendar.add": "edit-calendar",
 } as Partial<
-    Record<
-        import("expo-symbols").SymbolViewProps["name"],
-        React.ComponentProps<typeof MaterialIcons>["name"]
-    >
+  Record<
+    import("expo-symbols").SymbolViewProps["name"],
+    React.ComponentProps<typeof MaterialIcons>["name"]
+  >
 >;
 const MAPPINGFONTAWSOME = {
   // See MaterialIcons here: https://icons.expo.fyi
   // See SF Symbols in the SF Symbols app on Mac.
   user: "user",
   sort: "sort",
+  close: "close",
 } as Partial<
-    Record<
-        import("expo-symbols").SymbolViewProps["name"],
-        React.ComponentProps<typeof FontAwesome>["name"]
-    >
+  Record<
+    import("expo-symbols").SymbolViewProps["name"],
+    React.ComponentProps<typeof FontAwesome>["name"]
+  >
 >;
 
 export type IconSymbolName = keyof typeof MAPPING;
@@ -68,11 +69,11 @@ export type IconSymbolNameFontAwesome = keyof typeof MAPPINGFONTAWSOME;
  * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
  */
 export function IconSymbol({
-                             name,
-                             size = 24,
-                             color,
-                             style,
-                           }: {
+  name,
+  size = 24,
+  color,
+  style,
+}: {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
@@ -80,21 +81,21 @@ export function IconSymbol({
   weight?: SymbolWeight;
 }) {
   return (
-      <MaterialIcons
-          color={color}
-          size={size}
-          name={MAPPING[name]}
-          style={style}
-      />
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={MAPPING[name]}
+      style={style}
+    />
   );
 }
 
 export function IconSymbolFontAwesome({
-                                        name,
-                                        size = 24,
-                                        color,
-                                        style,
-                                      }: {
+  name,
+  size = 24,
+  color,
+  style,
+}: {
   name: IconSymbolNameFontAwesome;
   size?: number;
   color: string | OpaqueColorValue;
@@ -102,11 +103,11 @@ export function IconSymbolFontAwesome({
   weight?: SymbolWeight;
 }) {
   return (
-      <FontAwesome
-          color={color}
-          size={size}
-          name={MAPPINGFONTAWSOME[name]}
-          style={style}
-      />
+    <FontAwesome
+      color={color}
+      size={size}
+      name={MAPPINGFONTAWSOME[name]}
+      style={style}
+    />
   );
 }

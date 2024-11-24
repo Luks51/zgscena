@@ -253,20 +253,19 @@ export default function EventsScreen() {
       </SafeAreaView>
       {showFilters && (
         <View style={styles.filterScreen}>
-          <FilterScreen />
+          <FilterScreen setShowFilters={setShowFilters} />
         </View>
       )}
     </>
   );
 }
 
-function FilterScreen() {
+function FilterScreen({ setShowFilters }) {
   const colorScheme = useColorScheme();
 
   return (
     <>
       <SafeAreaView
-        on
         style={[styles.filterContainer, { backgroundColor: "white" }]}
       >
         <Stack.Screen
@@ -286,9 +285,27 @@ function FilterScreen() {
               },
             ]}
           ></View>
-          <ThemedText type="subtitle" style={[globalStyles.mb2]}>
-            Filteri
-          </ThemedText>
+          <View
+            style={[
+              globalStyles.dFlex,
+              globalStyles.alignItemsCenter,
+              globalStyles.justifyContentBetween,
+              globalStyles.mb2,
+            ]}
+          >
+            <ThemedText type="subtitle">Filteri</ThemedText>
+            <TouchableOpacity
+              style={[globalStyles.p1]}
+              onPress={() => setShowFilters(false)}
+            >
+              <IconSymbolFontAwesome
+                size={20}
+                name="close"
+                color={Colors[colorScheme ?? "light"].text}
+              />
+            </TouchableOpacity>
+          </View>
+
           <ScrollView>
             <View>
               <View
@@ -383,9 +400,173 @@ function FilterScreen() {
                   style={[
                     globalStyles.mt1,
                     globalStyles.dFlex,
-                    globalStyles.justifyContentBetween,
+                    globalStyles.alignItemsCenter,
                   ]}
-                ></View>
+                >
+                  <View
+                    style={[
+                      globalStyles.px2,
+                      globalStyles.py1,
+                      {
+                        borderWidth: 1,
+                        borderColor: "rgba(0,0,0,0.3)",
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "rgba(0,0,0,0.3)" }]}>
+                      Danas
+                    </ThemedText>
+                  </View>
+                  <View
+                    style={[
+                      globalStyles.px2,
+                      globalStyles.mx1,
+                      globalStyles.py1,
+                      {
+                        backgroundColor: Colors[colorScheme ?? "light"].tint,
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "white" }]}>Sutra</ThemedText>
+                  </View>
+                  <View
+                    style={[
+                      globalStyles.px2,
+                      globalStyles.py1,
+                      {
+                        borderWidth: 1,
+                        borderColor: "rgba(0,0,0,0.3)",
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "rgba(0,0,0,0.3)" }]}>
+                      Sljedeći tjedan
+                    </ThemedText>
+                  </View>
+                </View>
+                <View
+                  style={[
+                    globalStyles.mt1,
+                    globalStyles.px2,
+                    globalStyles.py1,
+                    {
+                      borderWidth: 1,
+                      borderColor: "rgba(0,0,0,0.3)",
+                      borderRadius: 10,
+                    },
+                    globalStyles.dFlex,
+                    globalStyles.alignItemsCenter,
+                    globalStyles.justifyContentCenter,
+                  ]}
+                >
+                  <IconSymbol
+                    size={16}
+                    name="calendar.today"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
+                  <ThemedText
+                    style={[{ color: "rgba(0,0,0,0.3)" }, globalStyles.px1]}
+                  >
+                    Odabir datuma
+                  </ThemedText>
+                  <IconSymbol
+                    size={16}
+                    name="arrow.right"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
+                </View>
+              </View>
+              <View style={[globalStyles.mt2]}>
+                <ThemedText type="defaultSemiBold">Lokacija</ThemedText>
+
+                <View
+                  style={[
+                    globalStyles.mt1,
+                    globalStyles.px2,
+                    globalStyles.py1,
+                    {
+                      borderWidth: 1,
+                      borderColor: "rgba(0,0,0,0.3)",
+                      borderRadius: 10,
+                    },
+                    globalStyles.dFlex,
+                    globalStyles.alignItemsCenter,
+                    globalStyles.justifyContentCenter,
+                  ]}
+                >
+                  <IconSymbol
+                    size={16}
+                    name="location.pin"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
+                  <ThemedText
+                    style={[{ color: "rgba(0,0,0,0.3)" }, globalStyles.px1]}
+                  >
+                    Novi Zagreb - istok
+                  </ThemedText>
+                  <IconSymbol
+                    size={16}
+                    name="arrow.right"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
+                </View>
+              </View>
+              <View style={[globalStyles.mt2]}>
+                <ThemedText type="defaultSemiBold">Dob</ThemedText>
+                <View
+                  style={[
+                    globalStyles.mt1,
+                    globalStyles.dFlex,
+                    globalStyles.alignItemsCenter,
+                  ]}
+                >
+                  <View
+                    style={[
+                      globalStyles.px2,
+                      globalStyles.py1,
+                      {
+                        borderWidth: 1,
+                        borderColor: "rgba(0,0,0,0.3)",
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "rgba(0,0,0,0.3)" }]}>
+                      0-15
+                    </ThemedText>
+                  </View>
+                  <View
+                    style={[
+                      globalStyles.mx1,
+                      globalStyles.px2,
+                      globalStyles.py1,
+                      {
+                        backgroundColor: Colors[colorScheme ?? "light"].tint,
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "white" }]}>16-29</ThemedText>
+                  </View>
+                  <View
+                    style={[
+                      globalStyles.px2,
+                      globalStyles.py1,
+                      {
+                        borderWidth: 1,
+                        borderColor: "rgba(0,0,0,0.3)",
+                        borderRadius: 10,
+                      },
+                    ]}
+                  >
+                    <ThemedText style={[{ color: "rgba(0,0,0,0.3)" }]}>
+                      30+
+                    </ThemedText>
+                  </View>
+                </View>
               </View>
             </View>
           </ScrollView>

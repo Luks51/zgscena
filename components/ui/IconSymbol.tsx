@@ -41,7 +41,7 @@ const MAPPING = {
   "event.note": "event-note",
   directions: "directions",
   "calendar.add": "edit-calendar",
-  "filter.list": "filter-list"
+  "filter.list": "filter-list",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],
@@ -52,7 +52,8 @@ const MAPPINGFONTAWSOME = {
   // See MaterialIcons here: https://icons.expo.fyi
   // See SF Symbols in the SF Symbols app on Mac.
   user: "user",
-  sort: "sort"
+  sort: "sort",
+  close: "close",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

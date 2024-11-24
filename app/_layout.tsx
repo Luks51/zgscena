@@ -21,40 +21,21 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
-  useEffect(() => {
-    if (loaded) {
-      const timer = setTimeout(() => {
-        setSplashVisible(false);
-        SplashScreen.hideAsync();
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [loaded]);
-
-  if (isSplashVisible) {
-    return (
-        <View style={styles.splashContainer}>
-          <Text style={styles.splashText}>ZG scena</Text>
-        </View>
-    );
-  }
-
   return (
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen
-              name="index"
-              options={{
-                headerShown: false,
-              }}
-          />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(public)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(public)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
   );
 }
 

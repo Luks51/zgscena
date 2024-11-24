@@ -96,6 +96,11 @@ export default function HomeScreen() {
       >
         <View>
           <SafeAreaView style={[globalStyles.pb2]}>
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+            />
             <View
               style={[
                 globalStyles.dFlex,
@@ -214,8 +219,8 @@ export default function HomeScreen() {
       </LinearGradient>
       <ScrollView
         overScrollMode="never"
-        showsHorizontalScrollIndicator={false}
-        alwaysBounceHorizontal={true}
+        showsVerticalScrollIndicator={false}
+        alwaysBounceVertical={true}
       >
         <View>
           <View>
@@ -552,13 +557,6 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
-      <SafeAreaView style={[globalStyles.container]}>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-        />
-      </SafeAreaView>
     </>
   );
 }

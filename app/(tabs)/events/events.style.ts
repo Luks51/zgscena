@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   eventCardImage: {
-    aspectRatio: "16/9",
+    aspectRatio: "3/5",
+    width: "100%",
     borderRadius: 8,
   },
   eventSkeletonCard: {

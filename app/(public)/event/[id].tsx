@@ -22,6 +22,7 @@ import {
   useNavigation,
   useRouter,
 } from "expo-router";
+import * as Calendar from "expo-calendar";
 
 export default function Event() {
   const { id } = useLocalSearchParams();

@@ -94,7 +94,7 @@ export default function EventsScreen() {
         />
         <ScrollView
           overScrollMode="never"
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           alwaysBounceVertical={true}
         >
           <View>
@@ -104,23 +104,22 @@ export default function EventsScreen() {
                   globalStyles.px2,
                   globalStyles.pt2,
                   globalStyles.textCenter,
+                  globalStyles.mb2,
                   { color: Colors[colorScheme ?? "light"].tint },
                 ]}
                 type="subtitle"
               >
-                Događaji
+                Svi događaji
               </ThemedText>
               <ScrollView
                 overScrollMode="never"
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
+                alwaysBounceVertical={true}
+                showsVerticalScrollIndicator={false}
               >
                 <View
                   style={[
                     {
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
                     },
                   ]}
                 >
@@ -128,7 +127,10 @@ export default function EventsScreen() {
                     <View>
                       {events.map((event) => {
                         return (
-                          <View style={{ padding: 10 }} key={event.id}>
+                          <View
+                            style={{ padding: 6, marginBottom: 16 }}
+                            key={event.id}
+                          >
                             <View
                               style={[
                                 globalStyles.boxShadow,

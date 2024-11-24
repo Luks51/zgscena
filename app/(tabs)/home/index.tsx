@@ -94,7 +94,7 @@ export default function HomeScreen() {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        <View>
+        <View style={[{position: 'relative'}]}>
           <SafeAreaView style={[globalStyles.pb2]}>
             <Stack.Screen
               options={{

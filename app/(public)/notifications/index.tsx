@@ -1,4 +1,4 @@
-import {Link, Stack} from "expo-router";
+import {Link, Stack, useNavigation} from "expo-router";
 import { View, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "../../style";
@@ -11,64 +11,73 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Notifications() {
     const colorScheme = useColorScheme();
-    const imageSource = require("@/app/(public)/notifications/NotifImg.png");
-    const notifcationMessage = "I smell";
-    const notifcationMessage2 = "Jk";
+    const imageSource1 = require("@/assets/images/notifications/image1.jpeg");
+    const imageSource2 = require("@/assets/images/notifications/image2.jpeg");
+    const imageSource3 = require("@/assets/images/notifications/image3.png");
+    const notifcationMessage = "Ne propustite priliku za sudjelovanje u najnovijim aktivnostima!";
+    const notifcationMessage2 = "Novi događaj je dostupan u vašoj blizini!";
+    const navigation = useNavigation();
+
     type NotifProps = {
         imageSrc: any;
         notificationMsg: string;
-      };
+    };
 
-      const Notif = (props: NotifProps) => {
+    const Notif = (props: NotifProps) => {
         return (
-          <View style={[styles.notificationCardContainer]}>
-            <Image style={[styles.notificationCardImage]} source={props.imageSrc}></Image>
-            <ThemedText style={[styles.notificationText]} numberOfLines={3}>{props.notificationMsg}</ThemedText>
-          </View>
+            <View style={[styles.notificationCardContainer]}>
+                <Image style={[styles.notificationCardImage]} source={props.imageSrc}></Image>
+                <ThemedText style={[styles.notificationText]} numberOfLines={3}>{props.notificationMsg}</ThemedText>
+            </View>
         );
-      };
-
+    };
 
     function Header(){
         return(
-            <View style={[styles.header]}>
-                <ThemedText style={[styles.headerText]}>Obavjesti</ThemedText>
-                <TouchableOpacity>
-                    <IconSymbol size={28} name="more.vert" color={Colors[colorScheme ?? "light"].tint}/>
+            <View style={[{ display: "flex", flexDirection: "row", gap: 5, marginBottom: 10}]}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IconSymbol
+                        name="arrow.left"
+                        color={Colors[colorScheme ?? "light"].text}
+                    />
                 </TouchableOpacity>
+                <ThemedText type={"defaultSemiBold"}>
+                    Detalji događanja
+                </ThemedText>
             </View>
         )
     }
-
 
     function NotificationsList(){
         return(
             <View>
-                <Notif imageSrc={imageSource} notificationMsg={notifcationMessage} />
-                <Notif imageSrc={imageSource} notificationMsg={notifcationMessage2} />
+                <Notif imageSrc={imageSource1} notificationMsg={notifcationMessage} />
+                <Notif imageSrc={imageSource2} notificationMsg={notifcationMessage2} />
             </View>
         )
     }
 
-
-
-
-
     return (
-            <SafeAreaView style={[globalStyles.container, { marginHorizontal: 0, marginBottom: 0 }]}>
-                <Stack.Screen
-                    options={{
-                        headerShown: false,
-                    }}/>
+        <SafeAreaView style={[globalStyles.container, { marginHorizontal: 0, marginBottom: 0 }]}>
+            <Stack.Screen
+                options={{
+                    headerShown: false,
+                }}
+            />
 
-                    <View style={[{marginHorizontal: 20}]}>
-                        <Header></Header>
-                    </View>
+            <View style={[{marginHorizontal: 20}]}>
+                <Header />
+            </View>
 
-                    <NotificationsList></NotificationsList>
+            {/* New Notification with Croatian Text */}
+            <View style={styles.notificationCardContainer}>
+                <Image style={[styles.notificationCardImage]} source={imageSource3}></Image>
+                <ThemedText style={[styles.notificationText]} numberOfLines={3}>
+                    Pozivamo vas na događaj temeljen na vašim nedavnim pretraživanjima!
+                </ThemedText>
+            </View>
 
-
-
-            </SafeAreaView>
+            <NotificationsList />
+        </SafeAreaView>
     );
 }

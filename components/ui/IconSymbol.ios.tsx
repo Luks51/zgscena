@@ -40,7 +40,7 @@ const MAPPING = {
   "local.fire.department": "local-fire-department",
   "event.note": "event-note",
   directions: "directions",
-  "calendar.add": "edit-calendar"
+  "calendar.add": "edit-calendar",
   "filter.list": "filter-list",
 } as Partial<
     Record<

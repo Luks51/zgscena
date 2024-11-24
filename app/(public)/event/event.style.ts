@@ -21,7 +21,6 @@ export default StyleSheet.create({
     marginBottom: 16,
   },
   iconRow: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,

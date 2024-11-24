@@ -50,8 +50,8 @@ export default function MapScreen() {
       const data = await response.json();
       if (data.status === "OK" && data.results.length > 0) {
         return {
-          latitude: data.results[0].geometry.location.lat,
-          longitude: data.results[0].geometry.location.lng,
+          latitude: data.results[0].geometry.location.lat || 0,
+          longitude: data.results[0].geometry.location.lng || 0,
         };
       } else {
         throw new Error("No results found");
@@ -100,8 +100,8 @@ export default function MapScreen() {
                 street: event.fields.lokacija.split(",")[1],
                 city: "Zagreb",
               });
-              latitude = coordinates.latitude;
-              longitude = coordinates.longitude;
+              latitude = coordinates?.latitude || 0;
+              longitude = coordinates?.longitude || 0;
             }
 
             return {
@@ -143,8 +143,8 @@ export default function MapScreen() {
           <Marker
             key={index}
             coordinate={{
-              latitude: event.fields.latitude,
-              longitude: event.fields.longitude,
+              latitude: event.fields.latitude || 0,
+              longitude: event.fields.longitude || 0,
             }}
             title={event.fields.name}
             description={event.fields.description}
@@ -181,22 +181,13 @@ export default function MapScreen() {
         ]}
       >
         <TouchableOpacity
-          style={[
-            styles.currentLocationButton,
-            styles.floatingButton,
-            { zIndex: 26 },
-            globalStyles.mb2,
-          ]}
+          style={[styles.floatingButton, { zIndex: 26 }, globalStyles.mb2]}
           onPress={getCurrentLocation}
         >
           <Ionicons name="locate" size={24} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[
-            styles.directionsButton,
-            styles.floatingButton,
-            { zIndex: 26 },
-          ]}
+          style={[styles.floatingButton, { zIndex: 26 }]}
           onPress={handleShowDirections}
         >
           <Ionicons name="navigate" size={24} color="#fff" />

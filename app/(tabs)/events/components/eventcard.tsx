@@ -1,14 +1,9 @@
-import { Platform, TouchableOpacity } from "react-native";
 import globalStyles from "@/app/style";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { View, Image, useColorScheme } from "react-native";
-import { EventModel } from "./../models/home.model";
-import styles from "../home.style";
-import { useEffect } from "react";
-import { navigate } from "expo-router/build/global-state/routing";
-import { router } from "expo-router";
+import styles from "../events.style";
 
 export default function EventCardComponent({
   eventValue,

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import {Colors} from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 
 export default StyleSheet.create({
   container: {
@@ -53,10 +53,6 @@ export default StyleSheet.create({
   },
   footerButton: {
     backgroundColor: Colors.light.tint,
-    // borderWidth: 1,
-    // borderColor: Colors.light.tint,
-    display: "flex",
-    flexDirection: "row",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,

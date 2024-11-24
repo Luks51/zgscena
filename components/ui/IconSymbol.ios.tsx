@@ -1,5 +1,6 @@
 // This file is a fallback for using MaterialIcons on Android and web.
 
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SymbolWeight } from "expo-symbols";
 import React from "react";
@@ -31,17 +32,29 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "arrow.left" : "arrow-back",
-  "more.vert" : "more-vert",
-  "explore" : "explore",
+  "arrow.left": "arrow-back",
+  "more.vert": "more-vert",
+  explore: "explore",
+  "event.note": "event-note",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],
     React.ComponentProps<typeof MaterialIcons>["name"]
   >
 >;
+const MAPPINGFONTAWSOME = {
+  // See MaterialIcons here: https://icons.expo.fyi
+  // See SF Symbols in the SF Symbols app on Mac.
+  user: "user-large",
+} as Partial<
+  Record<
+    import("expo-symbols").SymbolViewProps["name"],
+    React.ComponentProps<typeof FontAwesome>["name"]
+  >
+>;
 
 export type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolNameFontAwesome = keyof typeof MAPPINGFONTAWSOME;
 
 /**
  * An icon component that uses native SFSymbols on iOS, and MaterialIcons on Android and web. This ensures a consistent look across platforms, and optimal resource usage.
@@ -65,6 +78,28 @@ export function IconSymbol({
       color={color}
       size={size}
       name={MAPPING[name]}
+      style={style}
+    />
+  );
+}
+
+export function IconSymbolFontAwesome({
+  name,
+  size = 24,
+  color,
+  style,
+}: {
+  name: IconSymbolNameFontAwesome;
+  size?: number;
+  color: string | OpaqueColorValue;
+  style?: StyleProp<ViewStyle>;
+  weight?: SymbolWeight;
+}) {
+  return (
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={MAPPINGFONTAWSOME[name]}
       style={style}
     />
   );

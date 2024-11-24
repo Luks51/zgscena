@@ -214,8 +214,8 @@ export default function HomeScreen() {
       </LinearGradient>
       <ScrollView
         overScrollMode="never"
-        showsVerticalScrollIndicator={false}
-        alwaysBounceVertical={true}
+        showsHorizontalScrollIndicator={false}
+        alwaysBounceHorizontal={true}
       >
         <View>
           <View>
@@ -236,7 +236,10 @@ export default function HomeScreen() {
                 >
                   {events.map((event) => {
                     return (
-                      <View style={{ paddingLeft: 20 }} key={event.id}>
+                      <View
+                        style={{ padding: 10, paddingLeft: 20 }}
+                        key={event.id}
+                      >
                         <View
                           style={[
                             globalStyles.boxShadow,
@@ -316,7 +319,10 @@ export default function HomeScreen() {
                   >
                     {events.map((event) => {
                       return (
-                        <View style={{ paddingLeft: 20 }} key={event.id}>
+                        <View
+                          style={{ padding: 10, paddingLeft: 20 }}
+                          key={event.id}
+                        >
                           <View
                             style={[
                               globalStyles.boxShadow,
@@ -397,7 +403,10 @@ export default function HomeScreen() {
                   >
                     {events.map((event) => {
                       return (
-                        <View style={{ paddingLeft: 20 }} key={event.id}>
+                        <View
+                          style={{ padding: 10, paddingLeft: 20 }}
+                          key={event.id}
+                        >
                           <View
                             style={[
                               globalStyles.boxShadow,
@@ -478,7 +487,10 @@ export default function HomeScreen() {
                   >
                     {events.map((event) => {
                       return (
-                        <View style={{ paddingLeft: 20 }} key={event.id}>
+                        <View
+                          style={{ padding: 10, paddingLeft: 20 }}
+                          key={event.id}
+                        >
                           <View
                             style={[
                               globalStyles.boxShadow,

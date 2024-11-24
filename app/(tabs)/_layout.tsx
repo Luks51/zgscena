@@ -3,7 +3,7 @@ import React from "react";
 import { Platform } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import { IconSymbol, IconSymbolFontAwesome } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -38,33 +38,41 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="events"
+        options={{
+          title: "Događaji",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="event.note" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="map"
         options={{
-          title: "Mapa",
+          title: "Karta",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="location.pin" color={color} />
           ),
         }}
       />
-        <Tabs.Screen
-            name="calender"
-            options={{
-                title: "Profil",
-                tabBarIcon: ({ color }) => (
-                    <IconSymbol size={28} name="people" color={color} />
-                ),
-            }}
-        />
+      <Tabs.Screen
+        name="calender"
+        options={{
+          title: "Profil",
+          tabBarIcon: ({ color }) => (
+            <IconSymbolFontAwesome size={28} name="user" color={color} />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profil",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="people" color={color} />
+            <IconSymbolFontAwesome size={28} name="user" color={color} />
           ),
         }}
       />
-
     </Tabs>
   );
 }

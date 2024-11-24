@@ -4,6 +4,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SymbolWeight } from "expo-symbols";
 import React from "react";
 import { OpaqueColorValue, StyleProp, ViewStyle } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 // Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
@@ -30,20 +31,33 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "more.vert" : "more-vert",
-  "arrow.left" : "arrow-back",
-  "explore" : "explore",
-  "settings" : "settings",
-  "question" : "question-mark",
-  "edit" : "edit",
+  "more.vert": "more-vert",
+  "arrow.left": "arrow-back",
+  explore: "explore",
+  settings: "settings",
+  question: "question-mark",
+  edit: "edit",
+  "local.fire.department": "local-fire-department",
+  "event.note": "event-note",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],
     React.ComponentProps<typeof MaterialIcons>["name"]
   >
 >;
+const MAPPINGFONTAWSOME = {
+  // See MaterialIcons here: https://icons.expo.fyi
+  // See SF Symbols in the SF Symbols app on Mac.
+  user: "user",
+} as Partial<
+  Record<
+    import("expo-symbols").SymbolViewProps["name"],
+    React.ComponentProps<typeof FontAwesome>["name"]
+  >
+>;
 
 export type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolNameFontAwesome = keyof typeof MAPPINGFONTAWSOME;
 
 /**
  * An icon component that uses native SFSymbols on iOS, and MaterialIcons on Android and web. This ensures a consistent look across platforms, and optimal resource usage.
@@ -67,6 +81,28 @@ export function IconSymbol({
       color={color}
       size={size}
       name={MAPPING[name]}
+      style={style}
+    />
+  );
+}
+
+export function IconSymbolFontAwesome({
+  name,
+  size = 24,
+  color,
+  style,
+}: {
+  name: IconSymbolNameFontAwesome;
+  size?: number;
+  color: string | OpaqueColorValue;
+  style?: StyleProp<ViewStyle>;
+  weight?: SymbolWeight;
+}) {
+  return (
+    <FontAwesome
+      color={color}
+      size={size}
+      name={MAPPINGFONTAWSOME[name]}
       style={style}
     />
   );

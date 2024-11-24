@@ -4,7 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Text,
+  Text, Platform,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
@@ -174,7 +174,7 @@ export default function MapScreen() {
       </SafeAreaView>
       <View
         style={[
-          { position: "absolute", bottom: 0, right: 0 },
+          { position: "absolute", bottom: Platform.OS === "ios" ? 70 : 0, right: 0 },
           { zIndex: 30 },
           globalStyles.me2,
           globalStyles.mb2,

@@ -20,8 +20,6 @@ import {
   useNavigation,
   useRouter,
 } from "expo-router";
-import * as Calendar from "expo-calendar";
-// please fix commit tree
 
 export default function Event() {
   const { id } = useLocalSearchParams();
@@ -31,10 +29,7 @@ export default function Event() {
   const navigation = useNavigation();
   const [event, setEvent] = useState<any>();
   const placeholderImage = require("@/assets/images/placeholder-image.png");
-  const startRating = Array.from({ length: 5 }, () =>
-      Math.random() < 0.5 ? 1 : 0
-  ).sort((a, b) => b - a);
-
+const startRating = Array.from({ length: 5 }, () => Math.random() < 0.5 ? 1 : 0).sort((a, b) => b -a);
   useEffect(() => {
     const fetchData = async () => {
       const token =
@@ -42,7 +37,7 @@ export default function Event() {
       const apiUrl =
           "https://api.airtable.com/v0/appE6L6fQPeZ6s8Gt/tblZ6EUAeNxYXP574/" + id; // Replace with your API endpoint
 
-      console.log(id);
+      console.log(id)
 
       try {
         const response = await fetch(apiUrl, {

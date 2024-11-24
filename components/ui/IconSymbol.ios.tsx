@@ -23,6 +23,7 @@ const MAPPING = {
   "location.pin": "location-pin",
   "calendar.month": "calendar-month",
   euro: "euro",
+  "local.fire.department": "local-fire-department",
   "sports.soccer": "sports-soccer",
   movie: "movie",
   fastfood: "fastfood",
@@ -30,19 +31,14 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "more.vert" : "more-vert",
   "arrow.left" : "arrow-back",
+  "more.vert" : "more-vert",
   "explore" : "explore",
-  "settings" : "settings",
-  "question" : "question-mark",
-  "edit" : "edit",
-  "calendar.add" : "edit-calendar",
-  directions: "directions",
 } as Partial<
-    Record<
-        import("expo-symbols").SymbolViewProps["name"],
-        React.ComponentProps<typeof MaterialIcons>["name"]
-    >
+  Record<
+    import("expo-symbols").SymbolViewProps["name"],
+    React.ComponentProps<typeof MaterialIcons>["name"]
+  >
 >;
 
 export type IconSymbolName = keyof typeof MAPPING;
@@ -53,11 +49,11 @@ export type IconSymbolName = keyof typeof MAPPING;
  * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
  */
 export function IconSymbol({
-                             name,
-                             size = 24,
-                             color,
-                             style,
-                           }: {
+  name,
+  size = 24,
+  color,
+  style,
+}: {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
@@ -65,11 +61,11 @@ export function IconSymbol({
   weight?: SymbolWeight;
 }) {
   return (
-      <MaterialIcons
-          color={color}
-          size={size}
-          name={MAPPING[name]}
-          style={style}
-      />
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={MAPPING[name]}
+      style={style}
+    />
   );
 }

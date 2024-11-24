@@ -22,25 +22,22 @@ export default function EventCardComponent({
         { width: "100%" },
       ]}
     >
-      <View style={[{ width: "40%" }]}>
+      <View style={[{ width: "30%", aspectRatio: "1/1" }]}>
         {eventValue.fields.slika?.length ? (
           <Image
             source={{
               uri: `${eventValue.fields.slika[0].thumbnails.large.url}`,
             }}
-            style={[styles.eventCardImage, globalStyles.mb2]}
+            style={[styles.eventCardImage]}
           />
         ) : (
-          <Image
-            source={image}
-            style={[styles.eventCardImage, globalStyles.mb2]}
-          />
+          <Image source={image} style={[styles.eventCardImage]} />
         )}
       </View>
-      <View style={[{ width: "55%" }]}>
+      <View style={[{ width: "65%" }]}>
         <ThemedText
           numberOfLines={1}
-          type="subtitle"
+          type="defaultSemiBold"
           style={[globalStyles.mb1]}
         >
           {eventValue.fields["skraćeni naziv"]}
@@ -57,48 +54,50 @@ export default function EventCardComponent({
             name="location.pin"
             color={Colors[colorScheme ?? "light"].tint}
           />
-          <ThemedText
-            style={[globalStyles.ms1, { lineHeight: 16 }]}
-            numberOfLines={2}
-          >
-            {eventValue.fields.lokacija
-              ? `${eventValue.fields.lokacija}`
-              : "Lokacija nije navedena"}
-          </ThemedText>
-        </View>
-        <View
-          style={[
-            globalStyles.dFlex,
-            globalStyles.alignItemsCenter,
-            globalStyles.mb1,
-          ]}
-        >
-          <ThemedText style={[globalStyles.ms1]}>
-            {`${new Date(
-              eventValue.fields["datum i vrijeme početka"]
-            ).getDate()}.${
-              new Date(
+          <View>
+            <ThemedText
+              style={[
+                globalStyles.ms1,
+                { lineHeight: 16, color: "rgba(0,0,0,0.2)" },
+              ]}
+              numberOfLines={2}
+            >
+              {eventValue.fields.lokacija
+                ? `${eventValue.fields.lokacija}`
+                : "Lokacija nije navedena"}
+            </ThemedText>
+            <ThemedText
+              style={[
+                globalStyles.ms1,
+                { color: Colors[colorScheme ?? "light"].tint },
+              ]}
+            >
+              {`${new Date(
                 eventValue.fields["datum i vrijeme početka"]
-              ).getMonth() + 1
-            }.${new Date(
-              eventValue.fields["datum i vrijeme početka"]
-            ).getFullYear()}. - ${new Date(
-              eventValue.fields["datum i vrijeme početka"]
-            ).getHours()}:${
-              new Date(
+              ).getDate()}.${
+                new Date(
+                  eventValue.fields["datum i vrijeme početka"]
+                ).getMonth() + 1
+              }.${new Date(
                 eventValue.fields["datum i vrijeme početka"]
-              ).getMinutes() < 10
-                ? "0"
-                : ""
-            }${
-              new Date(
+              ).getFullYear()}. - ${new Date(
                 eventValue.fields["datum i vrijeme početka"]
-              ).getMinutes() < 10
-                ? "0"
-                : ""
-            }`}
-            {}
-          </ThemedText>
+              ).getHours()}:${
+                new Date(
+                  eventValue.fields["datum i vrijeme početka"]
+                ).getMinutes() < 10
+                  ? "0"
+                  : ""
+              }${
+                new Date(
+                  eventValue.fields["datum i vrijeme početka"]
+                ).getMinutes() < 10
+                  ? "0"
+                  : ""
+              }`}
+              {}
+            </ThemedText>
+          </View>
         </View>
       </View>
     </View>

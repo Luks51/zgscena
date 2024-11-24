@@ -92,7 +92,7 @@ export default function HomeScreen() {
         colors={[Colors[colorScheme ?? "light"].tint, "#4da5db"]}
         style={[styles.headerWrapper, globalStyles.px2]}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
         <View>
           <SafeAreaView style={[globalStyles.pb2]}>
@@ -109,7 +109,7 @@ export default function HomeScreen() {
                 globalStyles.mb3,
               ]}
             >
-              <View
+              <TouchableOpacity
                 style={[
                   styles.bellIcon,
                   {
@@ -117,6 +117,7 @@ export default function HomeScreen() {
                       Colors[colorScheme ?? "light"].tintSecondary,
                   },
                 ]}
+                onPress={() => router.push(`/(public)/notifications`)}
               >
                 <IconSymbol
                   size={28}
@@ -124,7 +125,7 @@ export default function HomeScreen() {
                   color={Colors[colorScheme ?? "light"].background}
                 />
                 <View style={[styles.bellPoint]}></View>
-              </View>
+              </TouchableOpacity>
               <View>
                 <ThemedText
                   style={[
@@ -145,13 +146,16 @@ export default function HomeScreen() {
                   Trnje, Zagreb
                 </ThemedText>
               </View>
-              <View>
+              <TouchableOpacity
+                style={[globalStyles.p1]}
+                onPress={() => router.push(`/(tabs)/events`)}
+              >
                 <IconSymbol
                   size={28}
                   name="search"
                   color={Colors[colorScheme ?? "light"].background}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <ScrollView
               overScrollMode="never"
@@ -556,6 +560,32 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         </View>
+        <TouchableOpacity
+          style={[
+            globalStyles.container,
+            globalStyles.mt3,
+            globalStyles.mb3,
+            {
+              backgroundColor: Colors[colorScheme ?? "light"].tint,
+              borderRadius: 50,
+            },
+            globalStyles.px2,
+            globalStyles.py1,
+          ]}
+          onPress={() => router.push(`/(tabs)/events`)}
+        >
+          <ThemedText
+            style={[
+              {
+                color: Colors[colorScheme ?? "light"].background,
+                fontSize: 16,
+              },
+              globalStyles.textCenter,
+            ]}
+          >
+            Pronađi više događaja
+          </ThemedText>
+        </TouchableOpacity>
       </ScrollView>
     </>
   );

@@ -16,22 +16,28 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   eventCardImage: {
-    aspectRatio: "3/5",
     width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    resizeMode: "cover",
     borderRadius: 8,
   },
   eventSkeletonCard: {
-    marginStart: 20,
-    aspectRatio: "3/4",
     borderRadius: 12,
     backgroundColor: "white",
+    display: "flex",
+    flexDirection: "row",
+    height: 120,
   },
   eventSkeletonCardInner: {
     backgroundColor: "lightgray",
     aspectRatio: "1/1",
-    width: "90%",
+    width: "30%",
     borderRadius: 10,
     margin: 10,
+  },
+  eventSkeletonCardRight: {
+    width: "65%",
   },
   eventSkeletonCardText: {
     backgroundColor: "lightgray",
@@ -63,6 +69,7 @@ const styles = StyleSheet.create({
     boxSizing: "border-box",
   },
   eventBtn: {
+    height: 120,
     borderRadius: 12,
   },
 });

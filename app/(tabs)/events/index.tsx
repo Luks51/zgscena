@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import globalStyles from "../../style";
 import styles from "./events.style";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import { IconSymbol, IconSymbolFontAwesome } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedText } from "@/components/ThemedText";
@@ -53,7 +53,9 @@ export default function EventsScreen() {
   }>(categories[0]);
 
   const [events, setEvents] = useState<any[]>([]);
-  const [skeletonEvents, setSkeletonEvents] = useState<number[]>([1, 2, 3]);
+  const [skeletonEvents, setSkeletonEvents] = useState<number[]>([
+    1, 2, 3, 4, 5, 6,
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,98 +100,116 @@ export default function EventsScreen() {
           alwaysBounceVertical={true}
         >
           <View>
-            <View>
-              <ThemedText
-                style={[
-                  globalStyles.px2,
-                  globalStyles.pt2,
-                  globalStyles.textCenter,
-                  globalStyles.mb2,
-                  { color: Colors[colorScheme ?? "light"].tint },
-                ]}
-                type="subtitle"
-              >
-                Svi događaji
-              </ThemedText>
-              <ScrollView
-                overScrollMode="never"
-                alwaysBounceVertical={true}
-                showsVerticalScrollIndicator={false}
-              >
-                <View
-                  style={[
-                    {
-                      display: "flex",
-                    },
-                  ]}
+            <View
+              style={[
+                globalStyles.dFlex,
+                globalStyles.alignItemsCenter,
+                globalStyles.justifyContentBetween,
+              ]}
+            >
+              <View>
+                <ThemedText
+                  style={[globalStyles.pt2, globalStyles.mb2]}
+                  type="subtitle"
                 >
-                  {events.length ? (
-                    <View>
-                      {events.map((event) => {
-                        return (
-                          <View
-                            style={{ padding: 6, marginBottom: 16 }}
-                            key={event.id}
-                          >
-                            <View
-                              style={[
-                                globalStyles.boxShadow,
-                                styles.eventBtn,
-                                globalStyles.p2,
-                                {
-                                  backgroundColor:
-                                    Colors[colorScheme ?? "light"].background,
-                                },
-                              ]}
-                            >
-                              <TouchableOpacity
-                                onPress={() =>
-                                  router.push(`/(public)/event/${event.id}`)
-                                }
-                              >
-                                <EventCardComponent eventValue={event} />
-                              </TouchableOpacity>
-                            </View>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  ) : (
-                    <View
-                      style={[
-                        globalStyles.dFlex,
-                        globalStyles.justifyContentCenter,
-                        globalStyles.mt2,
-                      ]}
-                    >
-                      {skeletonEvents.map((event) => {
-                        return (
-                          <View style={[styles.eventSkeletonCard]} key={event}>
-                            <View
-                              style={[
-                                styles.eventSkeletonCardInner,
-                                globalStyles.dFlex,
-                                globalStyles.alignItemsCenter,
-                                globalStyles.justifyContentCenter,
-                              ]}
-                            >
-                              <ActivityIndicator
-                                size="large"
-                                color="gray"
-                              ></ActivityIndicator>
-                            </View>
-                            <View style={[styles.eventSkeletonCardText]}></View>
-                            <View
-                              style={[styles.eventSkeletonCardTextSecond]}
-                            ></View>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  )}
+                  Svi događaji
+                </ThemedText>
+              </View>
+              <View
+                style={[
+                  globalStyles.dFlex,
+                  globalStyles.alignItemsCenter,
+                  globalStyles.justifyContentCenter,
+                ]}
+              >
+                <View>
+                  <IconSymbolFontAwesome
+                    size={28}
+                    name="sort"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
                 </View>
-              </ScrollView>
+                <View style={[globalStyles.ms2]}>
+                  <IconSymbol
+                    size={28}
+                    name="filter.list"
+                    color={Colors[colorScheme ?? "light"].tint}
+                  />
+                </View>
+              </View>
             </View>
+          </View>
+
+          <View
+            style={[
+              {
+                display: "flex",
+              },
+            ]}
+          >
+            {events.length ? (
+              <View>
+                {events.map((event) => {
+                  return (
+                    <View
+                      style={{ padding: 6, marginBottom: 16 }}
+                      key={event.id}
+                    >
+                      <View
+                        style={[
+                          globalStyles.boxShadow,
+                          styles.eventBtn,
+                          globalStyles.p1,
+                          {
+                            backgroundColor:
+                              Colors[colorScheme ?? "light"].background,
+                          },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            router.push(`/(public)/event/${event.id}`)
+                          }
+                        >
+                          <EventCardComponent eventValue={event} />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            ) : (
+              <View style={[{ display: "flex" }]}>
+                {skeletonEvents.map((event) => {
+                  return (
+                    <View
+                      style={[styles.eventSkeletonCard, { marginBottom: 16 }]}
+                      key={event}
+                    >
+                      <View
+                        style={[
+                          styles.eventSkeletonCardInner,
+                          globalStyles.dFlex,
+                          globalStyles.alignItemsCenter,
+                          globalStyles.justifyContentCenter,
+                        ]}
+                      >
+                        <ActivityIndicator
+                          size="large"
+                          color="gray"
+                        ></ActivityIndicator>
+                      </View>
+                      <View style={[styles.eventSkeletonCardRight]}>
+                        <View style={[styles.eventSkeletonCardText]}></View>
+                        <View
+                          style={[styles.eventSkeletonCardTextSecond]}
+                        ></View>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

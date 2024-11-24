@@ -4,6 +4,9 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  Alert,
+  Platform,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "../../style";
@@ -64,7 +67,6 @@ export default function Event() {
   }, []);
 
   const getEventAges = (groupIds = []) => {
-    // Handle edge cases
     if (!Array.isArray(groupIds) || groupIds.length === 0) {
       return ["Nepoznato"];
     }
@@ -82,6 +84,68 @@ export default function Event() {
           return "Nepoznato";
       }
     });
+  };
+
+  const handleOpenMaps = () => {
+    if (!event?.fields?.lokacija) {
+      Alert.alert("Error", "Location not provided.");
+      return;
+    }
+
+    const encodedLocation = encodeURIComponent(event.fields.lokacija);
+    const url = Platform.select({
+      ios: `maps://?q=${encodedLocation}`, // Apple Maps
+      android: `geo:0,0?q=${encodedLocation}`, // Google Maps
+    });
+
+    if (url) {
+      Linking.openURL(url).catch((err) =>
+        Alert.alert("Error", "Unable to open maps.")
+      );
+    }
+  };
+
+  const handleAddToCalendar = async () => {
+    try {
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission Denied", "Calendar permissions are required.");
+        return;
+      }
+
+      const calendars = await Calendar.getCalendarsAsync();
+      const defaultCalendar =
+        calendars.find((cal) => cal.source?.name === "Default") || calendars[0];
+
+      const calendarId =
+        defaultCalendar?.id ||
+        (await Calendar.createCalendarAsync({
+          title: "Events Calendar",
+          color: "blue",
+          entityType: Calendar.EntityTypes.EVENT,
+          sourceId: defaultCalendar?.source.id,
+          source: defaultCalendar?.source,
+          accessLevel: Calendar.CalendarAccessLevel.OWNER,
+        }));
+
+      const startDate = new Date(event?.fields?.["datum i vrijeme početka"]);
+      const endDate = new Date(startDate);
+      endDate.setHours(startDate.getHours() + 2);
+
+      await Calendar.createEventAsync(calendarId, {
+        title: event?.fields?.["skraćeni naziv"] ?? "Event",
+        location: event?.fields?.lokacija ?? "Unknown location",
+        startDate,
+        endDate,
+        timeZone: "GMT+1",
+        notes: event?.fields?.opis ?? "",
+      });
+
+      Alert.alert("Success", "Event added to your calendar.");
+    } catch (error) {
+      console.log("Error adding event to calendar:", error);
+      Alert.alert("Error", "Failed to add the event to your calendar.");
+    }
   };
 
   return (

@@ -98,17 +98,25 @@ const styles = StyleSheet.create({
     width: 90,
     height: 28,
     borderRadius: 10,
-    backgroundColor: "rgba(86, 105, 255, 0.1)", 
+    backgroundColor: "rgba(86, 105, 255, 0.1)",
   },
-  interestsCard: {
-    backgroundColor: "#FBD041",
-    width: 99,
-    height: 39.6,
-    borderRadius: 10,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  }
+  // interestsCard: {
+  //   backgroundColor: "#FBD041",
+  //   width: 99,
+  //   height: 39.6,
+  //   borderRadius: 10,
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  categoriesBtn: {
+    flex :1,
+    fontSize: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 50,
+    // width: 120,
+  },
 });
 
 export default styles;

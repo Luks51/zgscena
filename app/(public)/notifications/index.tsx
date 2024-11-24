@@ -42,7 +42,7 @@ export default function Notifications() {
                     />
                 </TouchableOpacity>
                 <ThemedText type={"defaultSemiBold"}>
-                    Detalji događanja
+                    Obavijesti
                 </ThemedText>
             </View>
         )

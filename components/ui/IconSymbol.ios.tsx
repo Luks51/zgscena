@@ -42,6 +42,8 @@ const MAPPING = {
   directions: "directions",
   "calendar.add": "edit-calendar",
   "filter.list": "filter-list",
+    ai: 'auto-fix-high',
+
 } as Partial<
     Record<
         import("expo-symbols").SymbolViewProps["name"],

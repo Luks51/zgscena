@@ -6,7 +6,7 @@ const App = () => {
 
   if (!rootNavigationState?.key) return null;
 
-  return <Redirect href={"/(public)/splash"} />;
+  return <Redirect href={"/(public)/AI"} />;
 };
 
 export default App;

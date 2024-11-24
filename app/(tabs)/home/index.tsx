@@ -4,10 +4,11 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  Dimensions,
+  Dimensions, Platform,
 } from "react-native";
 import globalStyles from "../../style";
 import styles from "./home.style";
+import { StyleSheet } from "react-native";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -94,7 +95,7 @@ export default function HomeScreen() {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        <View style={[{position: 'relative'}]}>
+        <View >
           <SafeAreaView style={[globalStyles.pb2]}>
             <Stack.Screen
               options={{
@@ -225,6 +226,7 @@ export default function HomeScreen() {
         overScrollMode="never"
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical={true}
+        // style={[{position: "absolute"}]}
       >
         <View>
           <View>
@@ -587,6 +589,35 @@ export default function HomeScreen() {
           </ThemedText>
         </TouchableOpacity>
       </ScrollView>
+
+      <View style={style.container}>
+        <TouchableOpacity style={style.floatingButton}>
+          <IconSymbol name="ai" color="white" size={24} />
+        </TouchableOpacity>
+      </View>
     </>
   );
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginBottom: Platform.OS === 'ios' ? 100 : 20,
+    marginRight: 20,
+  },
+  floatingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: Colors.light.tint,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+});

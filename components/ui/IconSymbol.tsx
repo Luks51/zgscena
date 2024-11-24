@@ -39,6 +39,8 @@ const MAPPING = {
   edit: "edit",
   "local.fire.department": "local-fire-department",
   "event.note": "event-note",
+  directions: "directions",
+  "calendar.add": "edit-calendar"
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

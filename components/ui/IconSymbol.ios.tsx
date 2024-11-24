@@ -41,7 +41,6 @@ const MAPPING = {
   "event.note": "event-note",
   directions: "directions",
   "calendar.add": "edit-calendar"
-  "filter.list": "filter-list",
 } as Partial<
     Record<
         import("expo-symbols").SymbolViewProps["name"],

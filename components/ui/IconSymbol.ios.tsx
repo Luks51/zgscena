@@ -1,10 +1,10 @@
 // This file is a fallback for using MaterialIcons on Android and web.
 
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SymbolWeight } from "expo-symbols";
 import React from "react";
 import { OpaqueColorValue, StyleProp, ViewStyle } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 // Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
@@ -24,7 +24,6 @@ const MAPPING = {
   "location.pin": "location-pin",
   "calendar.month": "calendar-month",
   euro: "euro",
-  "local.fire.department": "local-fire-department",
   "sports.soccer": "sports-soccer",
   movie: "movie",
   fastfood: "fastfood",
@@ -32,27 +31,31 @@ const MAPPING = {
   "tehater.comedy": "theater-comedy",
   "star.fill": "star",
   "star.empty": "star-border",
-  "arrow.left": "arrow-back",
   "more.vert": "more-vert",
+  "arrow.left": "arrow-back",
   explore: "explore",
+  settings: "settings",
+  question: "question-mark",
+  edit: "edit",
+  "local.fire.department": "local-fire-department",
   "event.note": "event-note",
   directions: "directions",
   "calendar.add": "edit-calendar"
 } as Partial<
-  Record<
-    import("expo-symbols").SymbolViewProps["name"],
-    React.ComponentProps<typeof MaterialIcons>["name"]
-  >
+    Record<
+        import("expo-symbols").SymbolViewProps["name"],
+        React.ComponentProps<typeof MaterialIcons>["name"]
+    >
 >;
 const MAPPINGFONTAWSOME = {
   // See MaterialIcons here: https://icons.expo.fyi
   // See SF Symbols in the SF Symbols app on Mac.
-  user: "user-large",
+  user: "user",
 } as Partial<
-  Record<
-    import("expo-symbols").SymbolViewProps["name"],
-    React.ComponentProps<typeof FontAwesome>["name"]
-  >
+    Record<
+        import("expo-symbols").SymbolViewProps["name"],
+        React.ComponentProps<typeof FontAwesome>["name"]
+    >
 >;
 
 export type IconSymbolName = keyof typeof MAPPING;
@@ -64,11 +67,11 @@ export type IconSymbolNameFontAwesome = keyof typeof MAPPINGFONTAWSOME;
  * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
  */
 export function IconSymbol({
-  name,
-  size = 24,
-  color,
-  style,
-}: {
+                             name,
+                             size = 24,
+                             color,
+                             style,
+                           }: {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
@@ -76,21 +79,21 @@ export function IconSymbol({
   weight?: SymbolWeight;
 }) {
   return (
-    <MaterialIcons
-      color={color}
-      size={size}
-      name={MAPPING[name]}
-      style={style}
-    />
+      <MaterialIcons
+          color={color}
+          size={size}
+          name={MAPPING[name]}
+          style={style}
+      />
   );
 }
 
 export function IconSymbolFontAwesome({
-  name,
-  size = 24,
-  color,
-  style,
-}: {
+                                        name,
+                                        size = 24,
+                                        color,
+                                        style,
+                                      }: {
   name: IconSymbolNameFontAwesome;
   size?: number;
   color: string | OpaqueColorValue;
@@ -98,11 +101,11 @@ export function IconSymbolFontAwesome({
   weight?: SymbolWeight;
 }) {
   return (
-    <MaterialIcons
-      color={color}
-      size={size}
-      name={MAPPINGFONTAWSOME[name]}
-      style={style}
-    />
+      <FontAwesome
+          color={color}
+          size={size}
+          name={MAPPINGFONTAWSOME[name]}
+          style={style}
+      />
   );
 }

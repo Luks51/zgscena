@@ -130,6 +130,21 @@ export default function MapScreen() {
     console.log("Show Directions");
   };
 
+  const [refreshKey, setRefreshKey] = useState(0); // State to trigger re-renders
+
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    if (refreshKey === 0) {
+      console.log("Refreshing map data...");
+      setRefreshKey((prev) => prev + 1); // Increment to trigger re-render
+      clearInterval(interval); // Clear interval after first refresh
+    }
+  }, 1000); // Re-render after 1 second
+
+  return () => clearInterval(interval); // Cleanup on unmount
+}, []);
+
   return (
       <View style={[styles.container]}>
         <Stack.Screen options={{ headerShown: false }} />
@@ -139,9 +154,9 @@ export default function MapScreen() {
             initialRegion={ZAGREB_COORDINATES}
             showsUserLocation={true}
         >
-          {events.map((event, index) => (
+          {events.map((event) => (
               <Marker
-                  key={index}
+                  key={event.id} // Ensure key uniqueness
                   coordinate={{
                     latitude: event.fields.latitude,
                     longitude: event.fields.longitude,

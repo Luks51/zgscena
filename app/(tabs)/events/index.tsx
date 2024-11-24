@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  Dimensions,
+  Text,
+  TextInput,
 } from "react-native";
 import globalStyles from "../../style";
 import styles from "./events.style";
@@ -18,6 +19,8 @@ import { useEffect, useState } from "react";
 import EventCardComponent from "./components/eventcard";
 export default function EventsScreen() {
   const colorScheme = useColorScheme();
+
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const [categories, setCategories] = useState<
     {
@@ -57,6 +60,8 @@ export default function EventsScreen() {
     1, 2, 3, 4, 5, 6,
   ]);
 
+  const [keyword, setKeyword] = useState<string>("");
+
   useEffect(() => {
     const fetchData = async () => {
       const token =
@@ -88,17 +93,13 @@ export default function EventsScreen() {
 
   return (
     <>
-      <SafeAreaView style={[globalStyles.container]}>
+      <SafeAreaView style={[globalStyles.container, { position: "relative" }]}>
         <Stack.Screen
           options={{
             headerShown: false,
           }}
         />
-        <ScrollView
-          overScrollMode="never"
-          showsVerticalScrollIndicator={false}
-          alwaysBounceVertical={true}
-        >
+        <View>
           <View>
             <View
               style={[
@@ -122,96 +123,273 @@ export default function EventsScreen() {
                   globalStyles.justifyContentCenter,
                 ]}
               >
-                <View>
+                <TouchableOpacity>
                   <IconSymbolFontAwesome
                     size={28}
                     name="sort"
                     color={Colors[colorScheme ?? "light"].tint}
                   />
-                </View>
-                <View style={[globalStyles.ms2]}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[globalStyles.ms2]}
+                  onPress={() => setShowFilters(true)}
+                >
                   <IconSymbol
                     size={28}
                     name="filter.list"
                     color={Colors[colorScheme ?? "light"].tint}
                   />
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
+          <View style={[globalStyles.mb1]}>
+            <View style={[globalStyles.dFlex, globalStyles.alignItemsCenter]}>
+              <View>
+                <IconSymbol
+                  size={28}
+                  name="search"
+                  color={Colors[colorScheme ?? "light"].tint}
+                />
+              </View>
+              <View>
+                <Text
+                  style={[
+                    {
+                      color: Colors[colorScheme ?? "light"].tintSecondary,
+                      fontSize: 30,
+                      fontWeight: 100,
+                      lineHeight: 30,
+                      marginStart: 5,
+                    },
+                  ]}
+                >
+                  |
+                </Text>
+              </View>
+              <View>
+                <TextInput
+                  onChangeText={(text) => setKeyword(text)}
+                  placeholder="Pretraži"
+                  style={[{ width: 80 }]}
+                ></TextInput>
+              </View>
+            </View>
+          </View>
+          <ScrollView
+            overScrollMode="never"
+            showsVerticalScrollIndicator={false}
+            alwaysBounceVertical={true}
+          >
+            <View style={[{ display: "flex" }]}>
+              {events.length ? (
+                <View>
+                  {events.map((event) => {
+                    if (event?.fields["skraćeni naziv"].includes(keyword)) {
+                      return (
+                        <View
+                          style={{ padding: 6, marginBottom: 16 }}
+                          key={event.id}
+                        >
+                          <View
+                            style={[
+                              globalStyles.boxShadow,
+                              styles.eventBtn,
+                              globalStyles.p1,
+                              {
+                                backgroundColor:
+                                  Colors[colorScheme ?? "light"].background,
+                              },
+                            ]}
+                          >
+                            <TouchableOpacity
+                              onPress={() =>
+                                router.push(`/(public)/event/${event.id}`)
+                              }
+                            >
+                              <EventCardComponent eventValue={event} />
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      );
+                    }
+                  })}
+                </View>
+              ) : (
+                <View style={[{ display: "flex" }]}>
+                  {skeletonEvents.map((event) => {
+                    return (
+                      <View
+                        style={[styles.eventSkeletonCard, { marginBottom: 16 }]}
+                        key={event}
+                      >
+                        <View
+                          style={[
+                            styles.eventSkeletonCardInner,
+                            globalStyles.dFlex,
+                            globalStyles.alignItemsCenter,
+                            globalStyles.justifyContentCenter,
+                          ]}
+                        >
+                          <ActivityIndicator
+                            size="large"
+                            color="gray"
+                          ></ActivityIndicator>
+                        </View>
+                        <View style={[styles.eventSkeletonCardRight]}>
+                          <View style={[styles.eventSkeletonCardText]}></View>
+                          <View
+                            style={[styles.eventSkeletonCardTextSecond]}
+                          ></View>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
+            </View>
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+      {showFilters && (
+        <View style={styles.filterScreen}>
+          <FilterScreen />
+        </View>
+      )}
+    </>
+  );
+}
 
+function FilterScreen() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <>
+      <SafeAreaView
+        on
+        style={[styles.filterContainer, { backgroundColor: "white" }]}
+      >
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+        />
+        <View style={globalStyles.container}>
           <View
             style={[
               {
-                display: "flex",
+                backgroundColor: "gray",
+                width: 40,
+                height: 10,
+                borderRadius: 10,
+                marginHorizontal: "auto",
               },
             ]}
-          >
-            {events.length ? (
-              <View>
-                {events.map((event) => {
-                  return (
-                    <View
-                      style={{ padding: 6, marginBottom: 16 }}
-                      key={event.id}
-                    >
-                      <View
-                        style={[
-                          globalStyles.boxShadow,
-                          styles.eventBtn,
-                          globalStyles.p1,
-                          {
-                            backgroundColor:
-                              Colors[colorScheme ?? "light"].background,
-                          },
-                        ]}
-                      >
-                        <TouchableOpacity
-                          onPress={() =>
-                            router.push(`/(public)/event/${event.id}`)
-                          }
-                        >
-                          <EventCardComponent eventValue={event} />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  );
-                })}
+          ></View>
+          <ThemedText type="subtitle" style={[globalStyles.mb2]}>
+            Filteri
+          </ThemedText>
+          <ScrollView>
+            <View>
+              <View
+                style={[globalStyles.dFlex, globalStyles.justifyContentBetween]}
+              >
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      {
+                        backgroundColor: Colors[colorScheme ?? "light"].tint,
+                        padding: 20,
+                        borderRadius: 50,
+                      },
+                    ]}
+                  >
+                    <IconSymbol
+                      size={28}
+                      name="music.note"
+                      color={Colors[colorScheme ?? "light"].background}
+                    />
+                  </TouchableOpacity>
+                  <ThemedText style={[globalStyles.textCenter]}>
+                    Glazba
+                  </ThemedText>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      {
+                        backgroundColor:
+                          Colors[colorScheme ?? "light"].background,
+                        padding: 20,
+                        borderRadius: 50,
+                      },
+                    ]}
+                  >
+                    <IconSymbol
+                      size={28}
+                      name="tehater.comedy"
+                      color={Colors[colorScheme ?? "light"].tint}
+                    />
+                  </TouchableOpacity>
+                  <ThemedText style={[globalStyles.textCenter]}>
+                    Kazališta
+                  </ThemedText>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      {
+                        backgroundColor: Colors[colorScheme ?? "light"].tint,
+                        padding: 20,
+                        borderRadius: 50,
+                      },
+                    ]}
+                  >
+                    <IconSymbol
+                      size={28}
+                      name="movie"
+                      color={Colors[colorScheme ?? "light"].background}
+                    />
+                  </TouchableOpacity>
+                  <ThemedText style={[globalStyles.textCenter]}>
+                    Film
+                  </ThemedText>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      {
+                        backgroundColor:
+                          Colors[colorScheme ?? "light"].background,
+                        padding: 20,
+                        borderRadius: 50,
+                      },
+                    ]}
+                  >
+                    <IconSymbol
+                      size={28}
+                      name="fastfood"
+                      color={Colors[colorScheme ?? "light"].tint}
+                    />
+                  </TouchableOpacity>
+                  <ThemedText style={[globalStyles.textCenter]}>
+                    Gastro
+                  </ThemedText>
+                </View>
               </View>
-            ) : (
-              <View style={[{ display: "flex" }]}>
-                {skeletonEvents.map((event) => {
-                  return (
-                    <View
-                      style={[styles.eventSkeletonCard, { marginBottom: 16 }]}
-                      key={event}
-                    >
-                      <View
-                        style={[
-                          styles.eventSkeletonCardInner,
-                          globalStyles.dFlex,
-                          globalStyles.alignItemsCenter,
-                          globalStyles.justifyContentCenter,
-                        ]}
-                      >
-                        <ActivityIndicator
-                          size="large"
-                          color="gray"
-                        ></ActivityIndicator>
-                      </View>
-                      <View style={[styles.eventSkeletonCardRight]}>
-                        <View style={[styles.eventSkeletonCardText]}></View>
-                        <View
-                          style={[styles.eventSkeletonCardTextSecond]}
-                        ></View>
-                      </View>
-                    </View>
-                  );
-                })}
+              <View style={[globalStyles.mt2]}>
+                <ThemedText type="defaultSemiBold">Datum i vrijeme</ThemedText>
+                <View
+                  style={[
+                    globalStyles.mt1,
+                    globalStyles.dFlex,
+                    globalStyles.justifyContentBetween,
+                  ]}
+                ></View>
               </View>
-            )}
-          </View>
-        </ScrollView>
+            </View>
+          </ScrollView>
+        </View>
       </SafeAreaView>
     </>
   );

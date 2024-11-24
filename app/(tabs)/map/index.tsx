@@ -50,8 +50,8 @@ export default function MapScreen() {
       const data = await response.json();
       if (data.status === "OK" && data.results.length > 0) {
         return {
-          latitude: data.results[0].geometry.location.lat || 0,
-          longitude: data.results[0].geometry.location.lng || 0,
+          latitude: data.results[0].geometry.location.lat,
+          longitude: data.results[0].geometry.location.lng,
         };
       } else {
         throw new Error("No results found");
@@ -72,9 +72,9 @@ export default function MapScreen() {
   useEffect(() => {
     const fetchData = async () => {
       const token =
-        "pats9KvXvBmivlseG.4a3d9b8d286612bfab38436144cfda8ce68ac9d5603a7a7b43a3c0247802c538";
+          "pats9KvXvBmivlseG.4a3d9b8d286612bfab38436144cfda8ce68ac9d5603a7a7b43a3c0247802c538";
       const apiUrl =
-        "https://api.airtable.com/v0/appE6L6fQPeZ6s8Gt/tblZ6EUAeNxYXP574";
+          "https://api.airtable.com/v0/appE6L6fQPeZ6s8Gt/tblZ6EUAeNxYXP574";
 
       try {
         const response = await fetch(apiUrl, {
@@ -92,27 +92,27 @@ export default function MapScreen() {
         const result = await response.json();
 
         const eventsWithCoordinates = await Promise.all(
-          result.records.map(async (event) => {
-            let { latitude, longitude } = event.fields;
+            result.records.map(async (event) => {
+              let { latitude, longitude } = event.fields;
 
-            if (event.fields.lokacija && (!latitude || !longitude)) {
-              const coordinates = await geocodeLocation({
-                street: event.fields.lokacija.split(",")[1],
-                city: "Zagreb",
-              });
-              latitude = coordinates?.latitude || 0;
-              longitude = coordinates?.longitude || 0;
-            }
+              if (event.fields.lokacija && (!latitude || !longitude)) {
+                const coordinates = await geocodeLocation({
+                  street: event.fields.lokacija.split(",")[1],
+                  city: "Zagreb",
+                });
+                latitude = coordinates.latitude;
+                longitude = coordinates.longitude;
+              }
 
-            return {
-              ...event,
-              fields: {
-                ...event.fields,
-                latitude,
-                longitude,
-              },
-            };
-          })
+              return {
+                ...event,
+                fields: {
+                  ...event.fields,
+                  latitude,
+                  longitude,
+                },
+              };
+            })
         );
 
         setEvents(eventsWithCoordinates);
@@ -131,70 +131,79 @@ export default function MapScreen() {
   };
 
   return (
-    <View style={[styles.container]}>
-      <Stack.Screen options={{ headerShown: false }} />
-      {/* Map */}
-      <MapView
-        style={[StyleSheet.absoluteFill, { zIndex: 20 }]}
-        initialRegion={ZAGREB_COORDINATES}
-        showsUserLocation={true}
-      >
-        {events.map((event, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: event.fields.latitude || 0,
-              longitude: event.fields.longitude || 0,
-            }}
-            title={event.fields.name}
-            description={event.fields.description}
-          >
-            <Text>{getRandomEmoji()}</Text>
-          </Marker>
-        ))}
-      </MapView>
-      <SafeAreaView style={{ zIndex: 30 }}>
-        <View style={[{ flex: 1, zIndex: 30 }, globalStyles.mt1]}>
-          {/* Header */}
-          <View style={styles.headerWrapper}>
-            <View style={styles.header}>
-              <Ionicons
-                name="search"
-                size={20}
-                color="#666"
-                style={styles.searchIcon}
-              />
-              <TextInput
-                placeholder="Pronađi događaj"
-                style={styles.searchInput}
-              />
+      <View style={[styles.container]}>
+        <Stack.Screen options={{ headerShown: false }} />
+        {/* Map */}
+        <MapView
+            style={[StyleSheet.absoluteFill, { zIndex: 20 }]}
+            initialRegion={ZAGREB_COORDINATES}
+            showsUserLocation={true}
+        >
+          {events.map((event, index) => (
+              <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: event.fields.latitude,
+                    longitude: event.fields.longitude,
+                  }}
+                  title={event.fields.name}
+                  description={event.fields.description}
+              >
+                <Text>{getRandomEmoji()}</Text>
+              </Marker>
+          ))}
+        </MapView>
+        <SafeAreaView style={{ zIndex: 30 }}>
+          <View style={[{ flex: 1, zIndex: 30 }, globalStyles.mt1]}>
+            {/* Header */}
+            <View style={styles.headerWrapper}>
+              <View style={styles.header}>
+                <Ionicons
+                    name="search"
+                    size={20}
+                    color="#666"
+                    style={styles.searchIcon}
+                />
+                <TextInput
+                    placeholder="Pronađi događaj"
+                    style={styles.searchInput}
+                />
+              </View>
             </View>
           </View>
+        </SafeAreaView>
+        <View
+            style={[
+              { position: "absolute", bottom: Platform.OS === "ios" ? 70 : 0, right: 0 },
+              { zIndex: 30 },
+              globalStyles.me2,
+              globalStyles.mb2,
+            ]}
+        >
+          <TouchableOpacity
+              style={[
+                styles.currentLocationButton,
+                styles.floatingButton,
+                { zIndex: 26 },
+                globalStyles.mb2,
+              ]}
+              onPress={getCurrentLocation}
+          >
+            <Ionicons name="locate" size={24} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+              style={[
+                styles.directionsButton,
+                styles.floatingButton,
+                { zIndex: 26 },
+              ]}
+              onPress={handleShowDirections}
+          >
+            <Ionicons name="navigate" size={24} color="#fff" />
+          </TouchableOpacity>
         </View>
-      </SafeAreaView>
-      <View
-        style={[
-          { position: "absolute", bottom: Platform.OS === "ios" ? 70 : 0, right: 0 },
-          { zIndex: 30 },
-          globalStyles.me2,
-          globalStyles.mb2,
-        ]}
-      >
-        <TouchableOpacity
-          style={[styles.floatingButton, { zIndex: 26 }, globalStyles.mb2]}
-          onPress={getCurrentLocation}
-        >
-          <Ionicons name="locate" size={24} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.floatingButton, { zIndex: 26 }]}
-          onPress={handleShowDirections}
-        >
-          <Ionicons name="navigate" size={24} color="#fff" />
-        </TouchableOpacity>
+        {/* Floating Buttons */}
       </View>
-      {/* Floating Buttons */}
-    </View>
   );
 }
 

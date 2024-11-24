@@ -23,6 +23,32 @@ const styles = StyleSheet.create({
     height: "auto",
     borderRadius: 8,
   },
+  eventSkeletonCard: {
+    marginStart: 20,
+    aspectRatio: "3/4",
+    width: 290,
+    borderRadius: 12,
+    backgroundColor: "white",
+  },
+  eventSkeletonCardInner: {
+    backgroundColor: "lightgray",
+    aspectRatio: "1/1",
+    width: "90%",
+    borderRadius: 10,
+    margin: 10,
+  },
+  eventSkeletonCardText: {
+    backgroundColor: "lightgray",
+    margin: 10,
+    height: 20,
+    width: "70%",
+  },
+  eventSkeletonCardTextSecond: {
+    backgroundColor: "lightgray",
+    margin: 10,
+    height: 20,
+    width: "40%",
+  },
   bellIcon: {
     borderRadius: 50,
     padding: 8,

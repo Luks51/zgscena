@@ -33,7 +33,7 @@ export default function EventCardComponent({
           style={[styles.eventCardImage, globalStyles.mb2]}
         />
       )}
-      <ThemedText type="subtitle" style={[globalStyles.mb1]}>
+      <ThemedText numberOfLines={1} type="subtitle" style={[globalStyles.mb1]}>
         {eventValue.fields["skraćeni naziv"]}
       </ThemedText>
       <View

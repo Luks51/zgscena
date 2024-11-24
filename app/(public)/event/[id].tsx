@@ -1,5 +1,12 @@
-import {View, TouchableOpacity, Image, StyleSheet, ScrollView} from "react-native";
-import React, {useEffect, useState} from "react";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Alert, Platform, Linking,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import globalStyles from "../../style";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -13,6 +20,7 @@ import {
   useNavigation,
   useRouter,
 } from "expo-router";
+import * as Calendar from "expo-calendar";
 
 export default function Event() {
   const { id } = useLocalSearchParams();
@@ -22,7 +30,10 @@ export default function Event() {
   const navigation = useNavigation();
   const [event, setEvent] = useState<any>();
   const placeholderImage = require("@/assets/images/placeholder-image.png");
-const startRating = Array.from({ length: 5 }, () => Math.random() < 0.5 ? 1 : 0).sort((a, b) => b -a);
+  const startRating = Array.from({ length: 5 }, () =>
+      Math.random() < 0.5 ? 1 : 0
+  ).sort((a, b) => b - a);
+
   useEffect(() => {
     const fetchData = async () => {
       const token =
@@ -30,7 +41,7 @@ const startRating = Array.from({ length: 5 }, () => Math.random() < 0.5 ? 1 : 0)
       const apiUrl =
           "https://api.airtable.com/v0/appE6L6fQPeZ6s8Gt/tblZ6EUAeNxYXP574/" + id; // Replace with your API endpoint
 
-      console.log(id)
+      console.log(id);
 
       try {
         const response = await fetch(apiUrl, {
@@ -56,13 +67,11 @@ const startRating = Array.from({ length: 5 }, () => Math.random() < 0.5 ? 1 : 0)
   }, []);
 
   const getEventAges = (groupIds = []) => {
-    // Handle edge cases
     if (!Array.isArray(groupIds) || groupIds.length === 0) {
       return ["Nepoznato"];
     }
 
-    // Map IDs to age group descriptions
-    return groupIds.map(groupId => {
+    return groupIds.map((groupId) => {
       switch (groupId) {
         case "recRV3I9wYB0ttyQ5":
           return "djeca (0-15)";
@@ -76,107 +85,214 @@ const startRating = Array.from({ length: 5 }, () => Math.random() < 0.5 ? 1 : 0)
     });
   };
 
+  const handleOpenMaps = () => {
+    if (!event?.fields?.lokacija) {
+      Alert.alert("Error", "Location not provided.");
+      return;
+    }
+
+    const encodedLocation = encodeURIComponent(event.fields.lokacija);
+    const url = Platform.select({
+      ios: `maps://?q=${encodedLocation}`, // Apple Maps
+      android: `geo:0,0?q=${encodedLocation}`, // Google Maps
+    });
+
+    if (url) {
+      Linking.openURL(url).catch((err) =>
+          Alert.alert("Error", "Unable to open maps.")
+      );
+    }
+  };
+
+  const handleAddToCalendar = async () => {
+    try {
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission Denied", "Calendar permissions are required.");
+        return;
+      }
+
+      const calendars = await Calendar.getCalendarsAsync();
+      const defaultCalendar =
+          calendars.find((cal) => cal.source?.name === "Default") ||
+          calendars[0];
+
+      const calendarId =
+          defaultCalendar?.id ||
+          (await Calendar.createCalendarAsync({
+            title: "Events Calendar",
+            color: "blue",
+            entityType: Calendar.EntityTypes.EVENT,
+            sourceId: defaultCalendar?.source.id,
+            source: defaultCalendar?.source,
+            accessLevel: Calendar.CalendarAccessLevel.OWNER,
+          }));
+
+      const startDate = new Date(event?.fields?.["datum i vrijeme početka"]);
+      const endDate = new Date(startDate);
+      endDate.setHours(startDate.getHours() + 2);
+
+      await Calendar.createEventAsync(calendarId, {
+        title: event?.fields?.["skraćeni naziv"] ?? "Event",
+        location: event?.fields?.lokacija ?? "Unknown location",
+        startDate,
+        endDate,
+        timeZone: "GMT+1",
+        notes: event?.fields?.opis ?? "",
+      });
+
+      Alert.alert("Success", "Event added to your calendar.");
+    } catch (error) {
+      console.log("Error adding event to calendar:", error);
+      Alert.alert("Error", "Failed to add the event to your calendar.");
+    }
+  };
+
   return (
-    <>
-    <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-    />
-      <SafeAreaView style={styles.container}>
-        <ScrollView
-            overScrollMode={"never"}
-            showsVerticalScrollIndicator={false}
-        >
-          <View style={[{display:"flex", flexDirection:"row", gap: 5}]}>
-            <TouchableOpacity
-                onPress={() => navigation.goBack()}
-            >
-              <IconSymbol
-                  name="arrow.left"
-                  color={Colors[colorScheme ?? "light"].text}
-
-              />
-            </TouchableOpacity>
-            <ThemedText type={'defaultSemiBold'}>Detalji događanja</ThemedText>
-          </View>
-
-
-        {/* Header Image */}
-          <Image
-              source={
-                event?.fields?.slika?.[0]?.thumbnails?.large?.url
-                    ? { uri: event.fields.slika[0].thumbnails.large.url }
-                    : placeholderImage
-              }
-              style={[styles.image, { marginTop: 10 }]}
-              resizeMode="cover"
-              height={styles.image.height / 2}
-              onError={(e) => {
-                console.warn("Image loading error:", e.nativeEvent.error);
-              }}
-          />
-
-        {/* Title */}
-        <ThemedText style={[styles.title, { textAlign: "left" }]}>
-          {event?.fields?.["skraćeni naziv"] ?? event?.fields?.["puni naziv"]}
-        </ThemedText>
-
-        {/* Details Section */}
-        <View style={styles.detailsContainer}>
-          {/* Icon with text (for Adults) */}
-          <View style={styles.iconRow}>
-            <View
-              style={[
-                styles.iconBox,
-                { justifyContent: "center", alignItems: "center" },
-              ]}
-            >
-              <IconSymbol name="people" color={Colors.light.tint} />
+      <>
+        <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+        />
+        <SafeAreaView style={styles.container}>
+          <ScrollView
+              overScrollMode={"never"}
+              showsVerticalScrollIndicator={false}
+          >
+            <View style={[{ display: "flex", flexDirection: "row", gap: 5 }]}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <IconSymbol
+                    name="arrow.left"
+                    color={Colors[colorScheme ?? "light"].text}
+                />
+              </TouchableOpacity>
+              <ThemedText type={"defaultSemiBold"}>
+                Detalji događanja
+              </ThemedText>
             </View>
-            <ThemedText style={styles.detailText}>
-                {getEventAges(event?.fields?.["ciljane dobne skupine"])}
+
+            <Image
+                source={
+                  event?.fields?.slika?.[0]?.thumbnails?.large?.url
+                      ? { uri: event.fields.slika[0].thumbnails.large.url }
+                      : placeholderImage
+                }
+                style={[styles.image, { marginTop: 10 }]}
+                resizeMode="cover"
+                height={styles.image.height / 2}
+                onError={(e) => {
+                  console.warn("Image loading error:", e.nativeEvent.error);
+                }}
+            />
+
+            <ThemedText style={[styles.title, { textAlign: "left" }]}>
+              {event?.fields?.["skraćeni naziv"] ?? event?.fields?.["puni naziv"]}
             </ThemedText>
-          </View>
 
-          {/* Icon with text (Date and Time) */}
-          <View style={styles.iconRow}>
-              <View
-                style={[
-                  styles.iconBox,
-                  { justifyContent: "center", alignItems: "center" },
-                ]}
-              >
-                <IconSymbol name="calendar.month" color={Colors.light.tint} />
+            <View style={styles.detailsContainer}>
+              <View style={styles.iconRow}>
+                <View
+                    style={[
+                      styles.iconBox,
+                      { justifyContent: "center", alignItems: "center" },
+                    ]}
+                >
+                  <IconSymbol name="people" color={Colors.light.tint} />
+                </View>
+                <ThemedText style={styles.detailText}>
+                  {getEventAges(event?.fields?.["ciljane dobne skupine"])}
+                </ThemedText>
               </View>
-              <ThemedText style={styles.detailText}>
-                {`${new Date(event?.fields?.["datum i vrijeme početka"]).getDate()}.${
-                  new Date(event?.fields?.["datum i vrijeme početka"]).getMonth() + 1
-                }.${new Date(event?.fields?.["datum i vrijeme početka"]).getFullYear()}.`}
-              </ThemedText>
-          </View>
 
-          {/* Icon with text (Location) */}
-          <View style={styles.iconRow}>
-              <View
-                style={[
-                  styles.iconBox,
-                  { justifyContent: "center", alignItems: "center" },
-                ]}
-              >
-                <IconSymbol name="location.pin" color={Colors.light.tint} />
-              </View>
-            <View style={[{ display: "flex", flexDirection: "column", alignItems: event?.fields?.lokacija ? "flex-start" : "center" }]}>
-              <ThemedText style={styles.detailText}>
-                {event?.fields?.lokacija?.split(",")[0] ?? "Lokacija nije navedena"}
-              </ThemedText>
-              {event?.fields?.lokacija && (
-                  <ThemedText style={[styles.detailText, { fontSize: 12 }]}>
-                    {event?.fields?.lokacija?.split(",")[1] ?? ""}
+              <View style={[styles.iconRow, { justifyContent: "space-between" }]}>
+                <View style={[styles.iconRow, { marginBottom: 0 }]}>
+                  <View
+                      style={[
+                        styles.iconBox,
+                        { justifyContent: "center", alignItems: "center" },
+                      ]}
+                  >
+                    <IconSymbol name="calendar.month" color={Colors.light.tint} />
+                  </View>
+                  <ThemedText style={styles.detailText}>
+                    {`${new Date(
+                        event?.fields?.["datum i vrijeme početka"]
+                    ).getDate()}.${
+                        new Date(
+                            event?.fields?.["datum i vrijeme početka"]
+                        ).getMonth() + 1
+                    }.${new Date(
+                        event?.fields?.["datum i vrijeme početka"]
+                    ).getFullYear()}.`}
                   </ThemedText>
-              )}
-            </View>
-          </View>
+                </View>
+
+                <TouchableOpacity onPress={handleAddToCalendar}>
+                  <View
+                      style={[
+                        styles.iconBox,
+                        { justifyContent: "center", alignItems: "center" },
+                      ]}
+                  >
+                    <IconSymbol
+                        name="calendar.add"
+                        color={Colors.light.tint}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+<View style={[styles.iconRow, { justifyContent: "space-between" }]}>
+  <View style={[styles.iconRow, { marginBottom: 0 }]}>
+    <View
+        style={[
+          styles.iconBox,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+    >
+      <IconSymbol name="location.pin" color={Colors.light.tint} />
+    </View>
+    <View>
+      <View
+          style={[
+            {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: event?.fields?.lokacija
+                  ? "flex-start"
+                  : "center",
+            },
+          ]}
+      >
+        <ThemedText style={styles.detailText}>
+          {event?.fields?.lokacija?.split(",")[0] ??
+              "Lokacija nije navedena"}
+        </ThemedText>
+        {event?.fields?.lokacija && (
+            <ThemedText style={[styles.detailText, { fontSize: 12 }]}>
+              {event?.fields?.lokacija?.split(",")[1] ?? ""}
+            </ThemedText>
+        )}
+      </View>
+
+    </View>
+
+  </View>
+  <TouchableOpacity onPress={handleOpenMaps}>
+    <View
+        style={[
+          styles.iconBox,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+    >
+      <IconSymbol
+          name="directions"
+          color={Colors.light.tint}
+      />
+    </View>
+  </TouchableOpacity>
+</View>
 
           {/* Icon with text (Price) */}
 

@@ -36,6 +36,8 @@ const MAPPING = {
   "settings" : "settings",
   "question" : "question-mark",
   "edit" : "edit",
+  "calendar.add" : "edit-calendar",
+  directions: "directions",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

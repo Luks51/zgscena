@@ -1,8 +1,10 @@
 import { Stack } from "expo-router";
-import { View, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Text } from "react-native";
+import { View, TextInput, TouchableOpacity, StyleSheet, Text } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {Colors} from "@/constants/Colors";
 
 const ZAGREB_COORDINATES = {
     latitude: 45.778117,
@@ -104,19 +106,54 @@ export default function MapScreen() {
         }
 
         fetchData();
-        getCurrentLocation(); // Get current location when component mounts
     }, []);
+
+    const handleShowDirections = () => {
+        console.log("Show Directions");
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <Stack.Screen options={{ headerShown: false }} />
 
-            {/* Search Header */}
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
-                    <Ionicons name="chevron-back" size={24} color="#000" />
-                </TouchableOpacity>
-                <View style={styles.searchContainer}>
+            {/* Map */}
+            <MapView
+                style={StyleSheet.absoluteFillObject}
+                initialRegion={ZAGREB_COORDINATES}
+                showsUserLocation={true}
+            >
+                {events.map((event, index) => (
+                    <Marker
+                        key={index}
+                        coordinate={{
+                            latitude: event.fields.latitude,
+                            longitude: event.fields.longitude,
+                        }}
+                        title={event.fields.name}
+                        description={event.fields.description}
+                    >
+                        <Text>{getRandomEmoji()}</Text>
+                    </Marker>
+                ))}
+            </MapView>
+
+            {/* Floating Buttons */}
+            <TouchableOpacity
+                style={[styles.floatingButton, styles.currentLocationButton]}
+                onPress={getCurrentLocation}
+            >
+                <Ionicons name="locate" size={24} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.floatingButton, styles.directionsButton]}
+                onPress={handleShowDirections}
+            >
+                <Ionicons name="navigate" size={24} color="#fff" />
+            </TouchableOpacity>
+
+            {/* Header */}
+            <View style={styles.headerWrapper}>
+                <View style={styles.header}>
                     <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
                     <TextInput
                         placeholder="Pronađi događaj"
@@ -124,47 +161,8 @@ export default function MapScreen() {
                     />
                 </View>
             </View>
-
-            {/* Map */}
-            {loading ? (
-                <Text>Loading...</Text>
-            ) : (
-                <MapView
-                    style={styles.map}
-                    initialRegion={ZAGREB_COORDINATES}
-                    showsUserLocation={true} // Automatically shows the user's current location (blue dot)
-                    followsUserLocation={true} // Follow user movement
-                >
-                    {events.map((event, index) => (
-                        <Marker
-                            key={index}
-                            coordinate={{
-                                latitude: event.fields.latitude,
-                                longitude: event.fields.longitude,
-                            }}
-                            title={event.fields.name}
-                            description={event.fields.description}
-                        >
-                            <Text>{getRandomEmoji()}</Text> {/* Display random emoji */}
-                        </Marker>
-                    ))}
-
-                    {/* User's current location as a blue dot */}
-                    {userLocation && (
-                        <Marker
-                            coordinate={{
-                                latitude: userLocation.latitude,
-                                longitude: userLocation.longitude,
-                            }}
-                            title="Your Location"
-                        >
-                            <Text>📍</Text>
-                        </Marker>
-                    )}
-                </MapView>
-            )}
         </SafeAreaView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -172,37 +170,48 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    map: {
+        flex: 1,
+    },
+    headerWrapper: {
+        position: 'absolute',
+        top: 70,
+        left: 0,
+        right: 0,
+        alignItems: 'center', // Center the header
+    },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingTop: 8,
-        paddingBottom: 16,
         backgroundColor: '#fff',
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-    },
-    backButton: {
-        padding: 8,
-    },
-    searchContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#f5f5f5',
-        borderRadius: 8,
-        marginLeft: 8,
-        paddingHorizontal: 12,
+        borderRadius: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        width: '90%', // Adjust width
+        elevation: 4, // Add shadow for better visibility
     },
     searchIcon: {
         marginRight: 8,
     },
     searchInput: {
         flex: 1,
-        padding: 8,
         fontSize: 16,
     },
-    map: {
-        flex: 1,
+    floatingButton: {
+        position: 'absolute',
+        backgroundColor: Colors.light.tint,
+        borderRadius: 10,
+        width: 50,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    currentLocationButton: {
+        bottom: 100,
+        right: 20,
+    },
+    directionsButton: {
+        bottom: 160,
+        right: 20,
     },
 });
